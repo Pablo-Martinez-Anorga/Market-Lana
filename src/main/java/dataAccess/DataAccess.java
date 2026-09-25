@@ -387,7 +387,7 @@ public class DataAccess {
                 return false;
             }
             
-            sale.getSalaketak().removeIf(s -> s.getId() == salaketa.getId());
+            sale.getSalaketak().removeIf(s -> s.getId().equals(salaketa.getId()));
 
             Salaketa s = db.find(Salaketa.class, salaketa.getId());
             if (s != null) {
