@@ -127,6 +127,7 @@ public class CreateSaleGUI extends JFrame {
 		}else {
 			for(String s:status) statusOptions.addElement(s);
 		}
+		
 		this.getContentPane().add(jLabelMsg, null);
 		this.getContentPane().add(jLabelError, null);
 
