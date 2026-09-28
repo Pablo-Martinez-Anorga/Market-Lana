@@ -50,7 +50,7 @@
 
 		<sonar.organization>proba2</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
-		<sonar.projectKey>proba2_proba</sonar.projectKey>
+		<sonar.projectKey>proba2_proba2</sonar.projectKey>
 		<sonar.login>510e82fc96e3088d960ae4294fee5747a5839877</sonar.login>
 	</properties>
 
