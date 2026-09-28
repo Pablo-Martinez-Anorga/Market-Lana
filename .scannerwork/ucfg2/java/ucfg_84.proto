@@ -1,6 +1,6 @@
 
 $gui.CreateSaleGUI#%field_initializer.
-$src\main\java\gui\CreateSaleGUI.java ("1*·)
+$src/main/java/gui/CreateSaleGUI.java ("1*·)
 1
 __unknown_file (\
 Z
@@ -308,6 +308,6 @@ s
 __unknown_file (
 
 %28javax.swing.JButton"
- º(
+ ¾(
 implicit returnB
 gui.CreateSaleGUI
