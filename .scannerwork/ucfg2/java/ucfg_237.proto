@@ -1,14 +1,10 @@
 
 Vbusinesslogic.BLFacadeImplementation#downloadImage(Ljava/lang/String;)Ljava/awt/Image;A
-7src\main\java\businesslogic\BLFacadeImplementation.javah h()"startingBlock*?
-3k k('"0
-k k('$
-"
-%4java.awt.image.BufferedImage*‰
+7src/main/java/businesslogic/BLFacadeImplementation.javah h()"startingBlock*‰
 startingBlockh) h(;‡
 „
 h h(
-%6"
+%9"
 __annotate*)
 
 __unknown_file (
@@ -23,9 +19,13 @@ __annotate*)
 
 __unknown_file (
 
-%6*
-5*þ
-4k k(ç
+%9*
+6*?
+4k k('"0
+k k('$
+"
+%4java.awt.image.BufferedImage*þ
+5k k(ç
 ä
 k k(&"
 %4java.awt.image.BufferedImage"Hjavax.imageio.ImageIO#read(Ljava/io/File;)Ljava/awt/image/BufferedImage;*5
@@ -36,8 +36,8 @@ __annotate*)
 __unknown_file (
 
 imagejava.io.File*
-3*µ
-5i i(&f
+4*µ
+6i i(&f
 d
 i i(&
 %0java.lang.String"__id*:
@@ -73,7 +73,7 @@ Y
 __unknown_file (
 
 %2java.io.File*
-4:)
+5:)
 h* h(:
 	imageNamejava.lang.StringB(&
 $businesslogic.BLFacadeImplementationH

@@ -2794,17 +2794,7 @@ toString().java.awt.Graphics#toString()Ljava/lang/String;Í
 setId(Ljava/lang/Integer;)+domain.Salaketa#setId(Ljava/lang/Integer;)VO
 setReason(Ljava/lang/String;).domain.Salaketa#setReason(Ljava/lang/String;)V3
 setTratatuta(Z) domain.Salaketa#setTratatuta(Z)VU
- setUserEmail(Ljava/lang/String;)1domain.Salaketa#setUserEmail(Ljava/lang/String;)VÌ
-domain.Erreklamazioajava.io.Serializablejava.lang.Object*
-<init>()domain.Erreklamazioa#<init>()Vr
-,<init>(Ljava/lang/String;Ljava/lang/String;)Bdomain.Erreklamazioa#<init>(Ljava/lang/String;Ljava/lang/String;)VI
-getBuyerEmail()6domain.Erreklamazioa#getBuyerEmail()Ljava/lang/String;:
-getId()/domain.Erreklamazioa#getId()Ljava/lang/Integer;A
-getReason()2domain.Erreklamazioa#getReason()Ljava/lang/String;4
-isTratatuta()#domain.Erreklamazioa#isTratatuta()Z\
-!setBuyerEmail(Ljava/lang/String;)7domain.Erreklamazioa#setBuyerEmail(Ljava/lang/String;)VT
-setReason(Ljava/lang/String;)3domain.Erreklamazioa#setReason(Ljava/lang/String;)V8
-setTratatuta(Z)%domain.Erreklamazioa#setTratatuta(Z)VÀ
+ setUserEmail(Ljava/lang/String;)1domain.Salaketa#setUserEmail(Ljava/lang/String;)VÀ
 java.lang.Numberjava.io.Serializablejava.lang.Object&
 <init>()java.lang.Number#<init>()V,
 byteValue()java.lang.Number#byteValue()B.
@@ -2877,7 +2867,17 @@ toString().java.lang.Integer#toString()Ljava/lang/String;>
 
 valueOf(I)/java.lang.Integer#valueOf(I)Ljava/lang/Integer;_
 valueOf(Ljava/lang/String;)@java.lang.Integer#valueOf(Ljava/lang/String;)Ljava/lang/Integer;a
-valueOf(Ljava/lang/String;I)Ajava.lang.Integer#valueOf(Ljava/lang/String;I)Ljava/lang/Integer;Ú
+valueOf(Ljava/lang/String;I)Ajava.lang.Integer#valueOf(Ljava/lang/String;I)Ljava/lang/Integer;Ì
+domain.Erreklamazioajava.io.Serializablejava.lang.Object*
+<init>()domain.Erreklamazioa#<init>()Vr
+,<init>(Ljava/lang/String;Ljava/lang/String;)Bdomain.Erreklamazioa#<init>(Ljava/lang/String;Ljava/lang/String;)VI
+getBuyerEmail()6domain.Erreklamazioa#getBuyerEmail()Ljava/lang/String;:
+getId()/domain.Erreklamazioa#getId()Ljava/lang/Integer;A
+getReason()2domain.Erreklamazioa#getReason()Ljava/lang/String;4
+isTratatuta()#domain.Erreklamazioa#isTratatuta()Z\
+!setBuyerEmail(Ljava/lang/String;)7domain.Erreklamazioa#setBuyerEmail(Ljava/lang/String;)VT
+setReason(Ljava/lang/String;)3domain.Erreklamazioa#setReason(Ljava/lang/String;)V8
+setTratatuta(Z)%domain.Erreklamazioa#setTratatuta(Z)VÚ
 domain.Eskaerajava.io.Serializablejava.lang.Object$
 <init>()domain.Eskaera#<init>()VŠ
 ;<init>(Ljava/lang/String;Ljava/lang/String;Ldomain/Seller;)Kdomain.Eskaera#<init>(Ljava/lang/String;Ljava/lang/String;Ldomain/Seller;)VT
@@ -4234,7 +4234,25 @@ CnewDurationYearMonth(ZLjava/math/BigInteger;Ljava/math/BigInteger;)ƒjavax.xml
 !newXMLGregorianCalendarDate(IIII)mjavax.xml.datatype.DatatypeFactory#newXMLGregorianCalendarDate(IIII)Ljavax/xml/datatype/XMLGregorianCalendar;’
 !newXMLGregorianCalendarTime(IIII)mjavax.xml.datatype.DatatypeFactory#newXMLGregorianCalendarTime(IIII)Ljavax/xml/datatype/XMLGregorianCalendar;”
 "newXMLGregorianCalendarTime(IIIII)njavax.xml.datatype.DatatypeFactory#newXMLGregorianCalendarTime(IIIII)Ljavax/xml/datatype/XMLGregorianCalendar;¿
-7newXMLGregorianCalendarTime(IIILjava/math/BigDecimal;I)ƒjavax.xml.datatype.DatatypeFactory#newXMLGregorianCalendarTime(IIILjava/math/BigDecimal;I)Ljavax/xml/datatype/XMLGregorianCalendar;Œ
+7newXMLGregorianCalendarTime(IIILjava/math/BigDecimal;I)ƒjavax.xml.datatype.DatatypeFactory#newXMLGregorianCalendarTime(IIILjava/math/BigDecimal;I)Ljavax/xml/datatype/XMLGregorianCalendar;¿
+gui.NireEskaerakGUIjavax.swing.JFrameM
+<init>(Ljava/lang/String;)/gui.NireEskaerakGUI#<init>(Ljava/lang/String;)V3
+acceptOffer()"gui.NireEskaerakGUI#acceptOffer()V9
+loadMyRequests()%gui.NireEskaerakGUI#loadMyRequests()VU
+loadOffersForSelectedRequest()3gui.NireEskaerakGUI#loadOffersForSelectedRequest()V¯
+gui.NireEskaerakGUI$1java.lang.Object'javax.swing.event.ListSelectionListenerU
+<init>(Lgui/NireEskaerakGUI;)4gui.NireEskaerakGUI$1#<init>(Lgui/NireEskaerakGUI;)Vƒ
+4valueChanged(Ljavax/swing/event/ListSelectionEvent;)Kgui.NireEskaerakGUI$1#valueChanged(Ljavax/swing/event/ListSelectionEvent;)VÜ
+$javax.swing.event.ListSelectionEventjava.util.EventObjectd
+<init>(Ljava/lang/Object;IIZ)Cjavax.swing.event.ListSelectionEvent#<init>(Ljava/lang/Object;IIZ)VH
+getFirstIndex()5javax.swing.event.ListSelectionEvent#getFirstIndex()IF
+getLastIndex()4javax.swing.event.ListSelectionEvent#getLastIndex()IT
+getValueIsAdjusting();javax.swing.event.ListSelectionEvent#getValueIsAdjusting()ZO
+
+toString()Ajavax.swing.event.ListSelectionEvent#toString()Ljava/lang/String;Õ
+javax.swing.ListSelectionModeljava.lang.ObjectM
+getSelectedIndices()5javax.swing.ListSelectionModel#getSelectedIndices()[IR
+getSelectedItemsCount()7javax.swing.ListSelectionModel#getSelectedItemsCount()IŒ
 gui.LoginGUIjavax.swing.JFrame"
 <init>()gui.LoginGUI#<init>()VD
 main([Ljava/lang/String;)'gui.LoginGUI#main([Ljava/lang/String;)V&
@@ -4319,25 +4337,7 @@ IgetInteriorRectangle(Ljava/awt/Component;Ljavax/swing/border/Border;IIII)java
 getBorderInsets()Ajavax.swing.border.EmptyBorder#getBorderInsets()Ljava/awt/Insets; 
 6getBorderInsets(Ljava/awt/Component;Ljava/awt/Insets;)fjavax.swing.border.EmptyBorder#getBorderInsets(Ljava/awt/Component;Ljava/awt/Insets;)Ljava/awt/Insets;D
 isBorderOpaque()0javax.swing.border.EmptyBorder#isBorderOpaque()Z”
-8paintBorder(Ljava/awt/Component;Ljava/awt/Graphics;IIII)Xjavax.swing.border.EmptyBorder#paintBorder(Ljava/awt/Component;Ljava/awt/Graphics;IIII)V¿
-gui.NireEskaerakGUIjavax.swing.JFrameM
-<init>(Ljava/lang/String;)/gui.NireEskaerakGUI#<init>(Ljava/lang/String;)V3
-acceptOffer()"gui.NireEskaerakGUI#acceptOffer()V9
-loadMyRequests()%gui.NireEskaerakGUI#loadMyRequests()VU
-loadOffersForSelectedRequest()3gui.NireEskaerakGUI#loadOffersForSelectedRequest()V¯
-gui.NireEskaerakGUI$1java.lang.Object'javax.swing.event.ListSelectionListenerU
-<init>(Lgui/NireEskaerakGUI;)4gui.NireEskaerakGUI$1#<init>(Lgui/NireEskaerakGUI;)Vƒ
-4valueChanged(Ljavax/swing/event/ListSelectionEvent;)Kgui.NireEskaerakGUI$1#valueChanged(Ljavax/swing/event/ListSelectionEvent;)VÜ
-$javax.swing.event.ListSelectionEventjava.util.EventObjectd
-<init>(Ljava/lang/Object;IIZ)Cjavax.swing.event.ListSelectionEvent#<init>(Ljava/lang/Object;IIZ)VH
-getFirstIndex()5javax.swing.event.ListSelectionEvent#getFirstIndex()IF
-getLastIndex()4javax.swing.event.ListSelectionEvent#getLastIndex()IT
-getValueIsAdjusting();javax.swing.event.ListSelectionEvent#getValueIsAdjusting()ZO
-
-toString()Ajavax.swing.event.ListSelectionEvent#toString()Ljava/lang/String;Õ
-javax.swing.ListSelectionModeljava.lang.ObjectM
-getSelectedIndices()5javax.swing.ListSelectionModel#getSelectedIndices()[IR
-getSelectedItemsCount()7javax.swing.ListSelectionModel#getSelectedItemsCount()I•
+8paintBorder(Ljava/awt/Component;Ljava/awt/Graphics;IIII)Xjavax.swing.border.EmptyBorder#paintBorder(Ljava/awt/Component;Ljava/awt/Graphics;IIII)V•
 gui.RegisterGUIjavax.swing.JFrame%
 <init>()gui.RegisterGUI#<init>()VG
 main([Ljava/lang/String;)*gui.RegisterGUI#main([Ljava/lang/String;)V…

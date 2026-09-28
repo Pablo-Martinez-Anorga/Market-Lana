@@ -276,8 +276,8 @@ public class DataAccess {
             db.persist(mugimendu);
             // --------------------------------
 
-            Sale managedsale =db.merge(sale);
-            Seller managedSeller=db.merge(buyer);
+            db.merge(sale);
+            db.merge(buyer);
             
             db.getTransaction().commit();
             return true;
@@ -396,8 +396,8 @@ public class DataAccess {
                 return false;
             }
             
-            sale.getSalaketak().removeIf(s -> s.getId().equals(salaketa.getId()));
-
+            sale.getSalaketak().removeIf(s -> s.getId() == salaketa.getId());
+            
             Salaketa s = db.find(Salaketa.class, salaketa.getId());
             if (s != null) {
                 s.setTratatuta(true);
