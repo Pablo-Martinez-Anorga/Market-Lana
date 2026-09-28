@@ -20,6 +20,7 @@ import java.awt.image.BufferedImage;
 import java.awt.Image;
 import javax.imageio.ImageIO;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 
 /**
@@ -27,18 +28,19 @@ import java.io.IOException;
  */
 @WebService(endpointInterface = "businessLogic.BLFacade")
 public class BLFacadeImplementation  implements BLFacade {
-	 //private static final int baseSize = 160;
 
-	private static final String basePath="src/main/resources/images/";
+	private static final String BASE_PATH="src/main/resources/images/";
 	DataAccess dbManager;
 
+	private static final Logger LOGGER = Logger.getLogger(BLFacadeImplementation.class.getName());
+	
 	public BLFacadeImplementation()  {		
 		System.out.println("Creating BLFacadeImplementation instance");
 		dbManager=new DataAccess();		
 	}
 	
     public BLFacadeImplementation(DataAccess da)  {
-		System.out.println("Creating BLFacadeImplementation instance with DataAccess parameter");
+    	LOGGER.info("Creating BLFacadeImplementation instance with DataAccess parameter");
 		dbManager=da;		
 	}
     
@@ -102,7 +104,7 @@ public class BLFacadeImplementation  implements BLFacade {
 	 * {@inheritDoc}
 	 */
     @WebMethod public Image downloadImage(String imageName) {
-        File image = new File(basePath+imageName);
+        File image = new File(BASE_PATH+imageName);
         try {
             return ImageIO.read(image);
         } catch (IOException e) {

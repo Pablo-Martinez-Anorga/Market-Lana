@@ -43,8 +43,7 @@ public class BusinessLogicServer extends JDialog {
 			dialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);			
 			dialog.setVisible(true);
 		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			System.out.println("Errorea zerbitzaria abiaraztean: " + e.getMessage());		}
 	}
 
 

@@ -4,6 +4,8 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -47,12 +49,12 @@ public class DataAccess {
 
     public DataAccess() {
         if (c.isDatabaseInitialized()) {
-            String fileName=c.getDbFilename();
+            String fileName = c.getDbFilename();
 
-            File fileToDelete= new File(fileName);
-            if(fileToDelete.delete()){
-                File fileToDeleteTemp= new File(fileName+"$");
+            try {
+                Files.delete(Paths.get(fileName));
                 
+                File fileToDeleteTemp = new File(fileName + "$");
                 if (fileToDeleteTemp.delete()) {
                     System.out.println("Temp file deleted successfully");
                 } else {
@@ -60,14 +62,15 @@ public class DataAccess {
                 }
 
                 System.out.println("File deleted");
-             } else {
-                 System.out.println("Operation failed");
-             }
+            } catch (Exception e) {
+                System.out.println("Operation failed: " + e.getMessage());
+            }
         }
+
         open();
         if (c.isDatabaseInitialized()) 
             initializeDB();
-        System.out.println("DataAccess created => isDatabaseLocal: "+c.isDatabaseLocal()+" isDatabaseInitialized: "+c.isDatabaseInitialized());
+        System.out.println("DataAccess created => isDatabaseLocal: " + c.isDatabaseLocal() + " isDatabaseInitialized: " + c.isDatabaseInitialized());
 
         close();
     }
@@ -82,11 +85,12 @@ public class DataAccess {
      */ 
     public void initializeDB(){
         db.getTransaction().begin();
+        String aurrera = "aurrera"; 
         try {        
             //Create sellers 
-            Seller seller1=new Seller("seller1@gmail.com","Aitor Fernandez","aurrera");
-            Seller seller2=new Seller("seller22@gmail.com","Ane Gaztañaga","aurrera");
-            Seller seller3=new Seller("seller3@gmail.com","Test Seller","aurrera");
+            Seller seller1=new Seller("seller1@gmail.com","Aitor Fernandez",aurrera);
+            Seller seller2=new Seller("seller22@gmail.com","Ane Gaztañaga",aurrera);
+            Seller seller3=new Seller("seller3@gmail.com","Test Seller",aurrera);
 
             Admin admin = new Admin("admin@gmail.com","Admin","admin123");
             db.persist(admin);
