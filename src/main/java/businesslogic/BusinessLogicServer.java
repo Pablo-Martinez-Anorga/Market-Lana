@@ -40,7 +40,7 @@ public class BusinessLogicServer extends JDialog {
 	public static void main(String[] args) {
 		try {
 			BusinessLogicServer dialog = new BusinessLogicServer();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);			
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();

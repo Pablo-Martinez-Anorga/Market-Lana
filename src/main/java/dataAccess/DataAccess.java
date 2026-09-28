@@ -52,11 +52,17 @@ public class DataAccess {
             File fileToDelete= new File(fileName);
             if(fileToDelete.delete()){
                 File fileToDeleteTemp= new File(fileName+"$");
-                fileToDeleteTemp.delete();
+                
+                if (fileToDeleteTemp.delete()) {
+                    System.out.println("Temp file deleted successfully");
+                } else {
+                    System.out.println("Failed to delete temp file or it does not exist");
+                }
+
                 System.out.println("File deleted");
              } else {
                  System.out.println("Operation failed");
-                }
+             }
         }
         open();
         if (c.isDatabaseInitialized()) 
