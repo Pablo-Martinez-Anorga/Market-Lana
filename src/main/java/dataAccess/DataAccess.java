@@ -265,15 +265,9 @@ public class DataAccess {
             mugimendu.setSale(sale);
             db.persist(mugimendu);
             // --------------------------------
-<<<<<<< HEAD
 
             db.merge(sale);
             db.merge(buyer);
-=======
-
-            Sale managedsale =db.merge(sale);
-            Seller managedSeller=db.merge(buyer);
->>>>>>> branch 'master' of https://github.com/Pablo-Martinez-Anorga/Market-Lana
             
             db.getTransaction().commit();
             return true;
