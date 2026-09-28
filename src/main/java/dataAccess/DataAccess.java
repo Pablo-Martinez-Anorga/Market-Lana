@@ -137,8 +137,7 @@ public class DataAccess {
             System.out.println("hasta aqui");
             return sale;
         } catch (NullPointerException e) {
-            e.printStackTrace();
-            db.getTransaction().commit();
+        	java.util.logging.Logger.getLogger(DataAccess.class.getName()).log(java.util.logging.Level.SEVERE, "NullPointerException createSale metodoan", e);            db.getTransaction().commit();
             return null;
         }
     }
@@ -266,9 +265,15 @@ public class DataAccess {
             mugimendu.setSale(sale);
             db.persist(mugimendu);
             // --------------------------------
+<<<<<<< HEAD
 
             db.merge(sale);
             db.merge(buyer);
+=======
+
+            Sale managedsale =db.merge(sale);
+            Seller managedSeller=db.merge(buyer);
+>>>>>>> branch 'master' of https://github.com/Pablo-Martinez-Anorga/Market-Lana
             
             db.getTransaction().commit();
             return true;
@@ -700,7 +705,7 @@ public class DataAccess {
             eskaera.addEskaintza(eskaintza);
             
             db.persist(eskaintza);
-            db.merge(eskaera);
+            eskaera = db.merge(eskaera);
             
             db.getTransaction().commit();
             return true;
