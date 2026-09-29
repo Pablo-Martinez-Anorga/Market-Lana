@@ -11,15 +11,18 @@ public class Utils {
 			return new ArrayList<String>(Arrays.asList("New","Very Good","Acceptable","Very Used"));
 		if (lang.compareTo("es")==0) 
 			return new ArrayList<String>(Arrays.asList("Nuevo","Muy Bueno","Aceptable","Lo ha dado todo"));
+		else
 		//if (lang.compareTo("eus")==0) 
-		return new ArrayList<String>(Arrays.asList("Berria","Oso Ona","Egokia","Oso zaharra"));
+			return new ArrayList<String>(Arrays.asList("Berria","Oso Ona","Egokia","Oso zaharra"));
 		//return null;
 	}
 	public static String getStatus(int t) {
 		ArrayList<String> status=getStatus();
 		if (status == null) {
 			return "Ez dago hizkuntz hori";
+		}else {
+			return status.get(t);
 		}
-		return status.get(t);
+		
 	}
 }
