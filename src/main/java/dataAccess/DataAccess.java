@@ -316,7 +316,6 @@ public class DataAccess {
 
             // --- NUEVO BLOQUE MUGIMENDUAK (CORREGIDO) ---
             Mugimenduak mugimendu = new Mugimenduak("DIRU_SARRERA", new java.util.Date(), s);
-            db.persist(mugimendu);
             // --------------------------------------------
 
             db.merge(s);
