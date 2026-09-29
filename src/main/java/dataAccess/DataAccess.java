@@ -276,8 +276,8 @@ public class DataAccess {
             db.persist(mugimendu);
             // --------------------------------
 
-            db.merge(sale);
-            db.merge(buyer);
+            Sale managedsale =db.merge(sale);
+            Seller manageSeller=db.merge(buyer);
             
             db.getTransaction().commit();
             return true;
@@ -395,7 +395,7 @@ public class DataAccess {
                 return false;
             }
             
-            sale.getSalaketak().removeIf(s -> s.getId() == salaketa.getId());
+            sale.getSalaketak().removeIf(s -> s.getId().equals(salaketa.getId()));
             
             Salaketa s = db.find(Salaketa.class, salaketa.getId());
             if (s != null) {
@@ -805,7 +805,7 @@ public class DataAccess {
             db.getTransaction().commit();
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+        	System.out.print("errorea irudia kargatzen: "+e.getMessage());
             db.getTransaction().rollback();
             return false;
         }
