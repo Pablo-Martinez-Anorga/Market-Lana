@@ -799,13 +799,13 @@ public class DataAccess {
             db.persist(mugimendu);
             
 
-            db.merge(b);
+            Bidalketa b2=db.merge(b);
             db.merge(seller);
             
             db.getTransaction().commit();
             return true;
         } catch (Exception e) {
-        	System.out.print("errorea irudia kargatzen: "+e.getMessage());
+        	e.printStackTrace();
             db.getTransaction().rollback();
             return false;
         }
