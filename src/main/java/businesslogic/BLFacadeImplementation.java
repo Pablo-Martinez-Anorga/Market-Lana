@@ -35,7 +35,7 @@ public class BLFacadeImplementation  implements BLFacade {
 	private static final Logger LOGGER = Logger.getLogger(BLFacadeImplementation.class.getName());
 	
 	public BLFacadeImplementation()  {		
-		System.out.println("Creating BLFacadeImplementation instance");
+		LOGGER.info("Creating BLFacadeImplementation instance");
 		dbManager=new DataAccess();		
 	}
 	
