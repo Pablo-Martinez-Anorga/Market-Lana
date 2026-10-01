@@ -58,10 +58,7 @@ public class ObjectdbManagerServer extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BorderLayout(0, 0));
-		{
-			textArea = new JTextArea();
-			contentPanel.add(textArea);
-		}
+		initializeTextArea();
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -126,6 +123,10 @@ public class ObjectdbManagerServer extends JDialog {
 		}
 		
 		}
+	}
+	private void initializeTextArea() {
+	    textArea = new JTextArea();
+	    contentPanel.add(textArea);
 	}
 	
 

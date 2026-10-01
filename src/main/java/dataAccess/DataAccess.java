@@ -41,7 +41,8 @@ import exceptions.SaleAlreadyExistException;
 public class DataAccess {
     private EntityManager db;
     private EntityManagerFactory emf;
-    private static final int baseSize = 160;
+    private static final int BASE_SIZE = 160;
+    private static final String EMAITZA="etiquetas";
 
     private static final String basePath="src/main/resources/images/";
 
@@ -122,20 +123,20 @@ public class DataAccess {
     }
     
     public Sale createSale(String title, String description, int status, float price, Date pubDate, String sellerEmail, File file) throws FileNotUploadedException, MustBeLaterThanTodayException, SaleAlreadyExistException {
-        System.out.println(">> DataAccess: createProduct=> title= "+title+" seller="+sellerEmail);
-        try {
+    	System.out.println(">> DataAccess: createProduct=> title= "+title+" seller="+sellerEmail);
+    	try {
             if(pubDate.before(UtilDate.trim(new Date()))) {
-                throw new MustBeLaterThanTodayException(ResourceBundle.getBundle("Etiquetas").getString("DataAccess.ErrorSaleMustBeLaterThanToday"));
+                throw new MustBeLaterThanTodayException(ResourceBundle.getBundle(EMAITZA).getString("DataAccess.ErrorSaleMustBeLaterThanToday"));
             }
             if (file==null)
-                throw new FileNotUploadedException(ResourceBundle.getBundle("Etiquetas").getString("DataAccess.ErrorFileNotUploadedException"));
+                throw new FileNotUploadedException(ResourceBundle.getBundle(EMAITZA).getString("DataAccess.ErrorFileNotUploadedException"));
 
             db.getTransaction().begin();
             
             Seller seller = db.find(Seller.class, sellerEmail);
             if (seller.doesSaleExist(title)) {
                 db.getTransaction().commit();
-                throw new SaleAlreadyExistException(ResourceBundle.getBundle("Etiquetas").getString("DataAccess.SaleAlreadyExist"));
+                throw new SaleAlreadyExistException(ResourceBundle.getBundle(EMAITZA).getString("DataAccess.SaleAlreadyExist"));
             }
 
             Sale sale = seller.addSale(title, description, status, price, pubDate, file);
@@ -208,9 +209,9 @@ public class DataAccess {
     
     public BufferedImage rescale(BufferedImage originalImage) {
         System.out.println("rescale "+originalImage);
-        BufferedImage resizedImage = new BufferedImage(baseSize, baseSize, BufferedImage.TYPE_INT_RGB);
+        BufferedImage resizedImage = new BufferedImage(BASE_SIZE, BASE_SIZE, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = resizedImage.createGraphics();
-        g.drawImage(originalImage, 0, 0, baseSize, baseSize, null);
+        g.drawImage(originalImage, 0, 0, BASE_SIZE, BASE_SIZE, null);
         g.dispose();
         return resizedImage;
     }
