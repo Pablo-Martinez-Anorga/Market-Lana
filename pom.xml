@@ -43,15 +43,13 @@
 			<url>https://m2.objectdb.com</url>
 		</repository>
 	</repositories>
-
 	<properties>
 		<maven.compiler.target>21</maven.compiler.target>
 		<maven.compiler.source>21</maven.compiler.source>
-
-		<sonar.organization>proba2</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.organization>proba2</sonar.organization>
 		<sonar.projectKey>proba2_proba2</sonar.projectKey>
-		<sonar.login>510e82fc96e3088d960ae4294fee5747a5839877</sonar.login>
+		<sonar.token> bd7dd71bbdf9b4e43df613980cec223ac553a0f3 </sonar.token>
 	</properties>
 
 	<dependencies>

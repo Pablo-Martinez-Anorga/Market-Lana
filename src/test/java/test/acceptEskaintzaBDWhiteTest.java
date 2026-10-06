@@ -26,12 +26,6 @@ public class acceptEskaintzaBDWhiteTest {
         sut.open();
     }
 
-    @After
-    public void tearDown() {
-        testDA.close();
-        sut.close();
-    }
-
     @Test
     public void test1() {
         try {

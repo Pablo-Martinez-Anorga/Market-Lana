@@ -127,11 +127,6 @@ public class acceptEskaintzaMockBlackTtest {
         Mockito.verify(transaction).rollback();
         Mockito.verify(transaction, Mockito.never()).commit();
     }
-
-    // ---------------------------------------------------------
-    // TEST 3
-    // El comprador no tiene suficiente dinero
-    // ---------------------------------------------------------
     @Test
     public void test3_DineroInsuficiente() {
 
@@ -170,11 +165,6 @@ public class acceptEskaintzaMockBlackTtest {
         Mockito.verify(transaction).rollback();
         Mockito.verify(transaction, Mockito.never()).commit();
     }
-
-    // ---------------------------------------------------------
-    // TEST 4
-    // Eskaera ID nulo
-    // ---------------------------------------------------------
     @Test
     public void test4_EskaeraNull() {
 
@@ -193,12 +183,8 @@ public class acceptEskaintzaMockBlackTtest {
         Mockito.verify(transaction, Mockito.never()).commit();
     }
 
-    // ---------------------------------------------------------
-    // TEST 5
-    // Eskaintza ID nulo
-    // ---------------------------------------------------------
     @Test
-    public void test5_EskaintzaNull() {
+    public void test5() {
 
         Mockito.when(db.find(Eskaera.class, 1))
                 .thenReturn(Mockito.mock(Eskaera.class));

@@ -167,7 +167,7 @@ public class acceptEskaintzaMockWhiteTest {
 
         } catch (Exception e) {
             e.printStackTrace();
-            fail("Excepción inesperada: " + e.toString());
+            fail(e.toString());
         }
     }
 }
