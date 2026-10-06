@@ -48,6 +48,8 @@ public class BLFacadeImplementation  implements BLFacade {
 	/**
 	 * {@inheritDoc}
 	 */
+    
+    // 4 pareametro
    @WebMethod
 	public Sale createSale(String title, String description,int status, float price, Date pubDate, String sellerEmail, File file) throws  FileNotUploadedException, MustBeLaterThanTodayException, SaleAlreadyExistException {
 		dbManager.open();

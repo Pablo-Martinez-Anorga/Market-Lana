@@ -121,7 +121,7 @@ public class DataAccess {
             e.printStackTrace();
         }
     }
-    
+    // 4 parametro
     public Sale createSale(String title, String description, int status, float price, Date pubDate, String sellerEmail, File file) throws FileNotUploadedException, MustBeLaterThanTodayException, SaleAlreadyExistException {
     	System.out.println(">> DataAccess: createProduct=> title= "+title+" seller="+sellerEmail);
     	try {
@@ -243,7 +243,7 @@ public class DataAccess {
              }
          }
      }
-
+    //15 lerro
     public boolean buyProduct(String buyerEmail, Integer saleNumber) {
         try {
             db.getTransaction().begin();
@@ -453,7 +453,7 @@ public class DataAccess {
             return query.getResultList();
         } catch (Exception e) { return new ArrayList<Sale>(); }
     }
-
+    //Konplexutasuna 4 eta 15 lerro
     public boolean resolveErreklamazioa(Integer saleNumber, boolean accept) {
         try {
             db.getTransaction().begin();
@@ -520,7 +520,7 @@ public class DataAccess {
         else
             return null;
     }
-    
+    //Konplexutasuna 4 eta 15 lerro
     public boolean addToBasket(String buyerEmail, Integer saleNumber) {
         try {
             db.getTransaction().begin();
@@ -596,7 +596,7 @@ public class DataAccess {
         return new ArrayList<>(user.getBasket());
     }
     
-    
+    // 15 lerro, 4ko konplexutasuna 
     public boolean buyBasket(String buyerEmail) {
         try {
             db.getTransaction().begin();
