@@ -1,3 +1,6 @@
+// isLogged() metodoa eta isAdmin() metodoa
+// getSales() metodoa eta getPulishedSales() metodoa
+// BLFacadeImplementation klasean, createSale() metodoak 4 parametro ++
 package dataAccess;
 
 import java.awt.Graphics2D;
@@ -84,6 +87,7 @@ public class DataAccess {
      * This method initializes the database with some products and sellers.
      * This method is invoked by the business logic (constructor of BLFacadeImplementation) when the option "initialize" is declared in the tag dataBaseOpenMode of resources/config.xml file
      */ 
+    // 15 lerro
     public void initializeDB(){
         db.getTransaction().begin();
         String aurrera = "aurrera"; 
@@ -385,7 +389,7 @@ public class DataAccess {
             return new ArrayList<Sale>();
         }
     }
-    
+    //15 lerro
     public boolean resolveReport(Integer saleNumber, Salaketa salaketa,boolean aceptar) {
         try {
             db.getTransaction().begin();
@@ -692,7 +696,7 @@ public class DataAccess {
         TypedQuery<Eskaera> query = db.createQuery("SELECT e FROM Eskaera e WHERE e.isClosed = false", Eskaera.class);
         return query.getResultList();
     }
-
+    // konplexutasuna 4
     public boolean addEskaintza(Integer eskaeraId, String sellerEmail, float price, String message) {
         try {
             db.getTransaction().begin();
@@ -719,7 +723,7 @@ public class DataAccess {
             return false;
         }
     }
-
+    // 15 lerro
     public boolean acceptEskaintza(Integer eskaeraId, Integer eskaintzaId) {
         try {
             db.getTransaction().begin();
