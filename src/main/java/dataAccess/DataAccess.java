@@ -1,4 +1,3 @@
-// isLogged() metodoa eta isAdmin() metodoa
 // getSales() metodoa eta getPulishedSales() metodoa
 // BLFacadeImplementation klasean, createSale() metodoak 4 parametro ++
 package dataAccess;
@@ -515,7 +514,7 @@ public class DataAccess {
     	return erabiltzaileaBilatu("SELECT a FROM Admin a WHERE a.name=?1 AND a.pass=?2", Admin.class, log, pass);
     }
     
-    public <T> T erabiltzaileaBilatu(String mezua, Class<T> mota, String log, String pass) {
+    private <T> T erabiltzaileaBilatu(String mezua, Class<T> mota, String log, String pass) {
         TypedQuery<T> query = db.createQuery(mezua, mota);
         query.setParameter(1, log);
         query.setParameter(2, pass);
