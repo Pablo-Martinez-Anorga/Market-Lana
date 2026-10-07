@@ -221,12 +221,7 @@ public class DataAccess {
     }
     
     @WebMethod public Seller isLogged(String log, String pass) {
-         TypedQuery<Seller> query = db.createQuery("SELECT s FROM Seller s WHERE s.name=?1 AND s.pass=?2",Seller.class);   
-         query.setParameter(1, log);
-         query.setParameter(2, pass);
-         if(!query.getResultList().isEmpty()) //User Existitzen bada
-             return query.getResultList().get(0);
-         else return null;
+    	return erabiltzaileaBilatu("SELECT s FROM Seller s WHERE s.name=?1 AND s.pass=?2", Seller.class, log, pass);
      }
     
     @WebMethod public Seller isRegister(String erabiltzaile, String helbidea, String pass, String confirmPass) {
@@ -517,10 +512,11 @@ public class DataAccess {
     }
     
     public Admin isAdmin(String log, String pass) {
-        TypedQuery<Admin> query = db.createQuery(
-            "SELECT a FROM Admin a WHERE a.name=?1 AND a.pass=?2",
-            Admin.class
-        );
+    	return erabiltzaileaBilatu("SELECT a FROM Admin a WHERE a.name=?1 AND a.pass=?2", Admin.class, log, pass);
+    }
+    
+    public <T> T erabiltzaileaBilatu(String mezua, Class<T> mota, String log, String pass) {
+        TypedQuery<T> query = db.createQuery(mezua, mota);
         query.setParameter(1, log);
         query.setParameter(2, pass);
 
