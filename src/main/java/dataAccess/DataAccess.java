@@ -247,42 +247,19 @@ public class DataAccess {
              }
          }
      }
-    //15 lerro
+    // Errefaktorizatuta 
     public boolean buyProduct(String buyerEmail, Integer saleNumber) {
         try {
             db.getTransaction().begin();
             Seller buyer = db.find(Seller.class, buyerEmail);
             Sale sale = db.find(Sale.class, saleNumber);
-            Seller seller = sale.getSeller();
             
-            if (buyer == null || sale == null || sale.getBuyer() != null) {
+            if (!erosketaBideragarriaDa(buyer, sale)) {
                 db.getTransaction().rollback();
                 return false; 
             }
             
-            float price = sale.getPrice();
-            if (buyer.getMoney() < price) {
-                db.getTransaction().rollback();
-                return false; 
-            }
-            
-            buyer.addMoney(-price);
-            sale.setBuyer(buyer); 
-            buyer.addPurchasedSale(sale); 
-            
-            Bidalketa bidalketa = new Bidalketa(sale);
-            sale.setBidalketa(bidalketa);
-            
-            db.persist(bidalketa);
-
-            // --- NUEVO BLOQUE MUGIMENDUAK ---
-            Mugimenduak mugimendu = new Mugimenduak("EROSKETA", new java.util.Date(), buyer);
-            mugimendu.setSale(sale);
-            db.persist(mugimendu);
-            // --------------------------------
-
-            Sale managedsale =db.merge(sale);
-            Seller manageSeller=db.merge(buyer);
+            gauzatuErosketa(buyer, sale, sale.getPrice());
             
             db.getTransaction().commit();
             return true;
@@ -292,6 +269,34 @@ public class DataAccess {
             return false;
         }
     }
+    
+    private boolean erosketaBideragarriaDa(Seller buyer, Sale sale) {
+        if (buyer == null || sale == null || sale.getBuyer() != null) {
+            return false;
+        }
+        else if (buyer.getMoney() < sale.getPrice()) {
+            return false;
+        }
+        return true;
+    }
+
+	private void gauzatuErosketa(Seller buyer, Sale sale, float price) {
+		buyer.addMoney(-price);
+		sale.setBuyer(buyer); 
+		buyer.addPurchasedSale(sale); 
+		
+		Bidalketa bidalketa = new Bidalketa(sale);
+		sale.setBidalketa(bidalketa);
+		
+		db.persist(bidalketa);
+
+		Mugimenduak mugimendu = new Mugimenduak("EROSKETA", new java.util.Date(), buyer);
+		mugimendu.setSale(sale);
+		db.persist(mugimendu);
+		
+        db.merge(sale);
+        db.merge(buyer);
+	}
     
     public List<Sale> getPurchasedItems(String email) {
         System.out.println(">> DataAccess: getPurchasedItems=> user= " + email);
@@ -524,43 +529,29 @@ public class DataAccess {
         else
             return null;
     }
-    //Konplexutasuna 4 eta 15 lerro
+
     public boolean addToBasket(String buyerEmail, Integer saleNumber) {
         try {
             db.getTransaction().begin();
             Seller buyer = db.find(Seller.class, buyerEmail);
             Sale sale = db.find(Sale.class, saleNumber);
 
-            if (buyer == null || sale == null || sale.getBuyer() != null) {
-                db.getTransaction().rollback();
-                return false;
+            if (datuakFaltaDira(buyer, sale)) {
+                db.getTransaction().rollback(); return false;
             }
             
             List<Sale> basket = buyer.getBasket();
             
-            for (Sale s : basket) {
-                if (s.getSaleNumber().equals(saleNumber)) {
-                    db.getTransaction().rollback();
-                    return false; 
-                }
+            if (produktuaSaskianDago(saleNumber, basket)) {
+                db.getTransaction().rollback(); return false; 
             }
             
-            if (basket.isEmpty()) {
-                basket.add(sale);
-                db.merge(buyer);
-                db.getTransaction().commit();
-                return true;
+            if (saltzaileEzberdinaDa(sale, basket)) {
+                db.getTransaction().rollback(); return false; 
             }
             
-            Seller firstSeller = buyer.getBasket().get(0).getSeller();
-
-            if (!sale.getSeller().equals(firstSeller)) {
-                return false; 
-            } 
-
             buyer.addToBasket(sale);
             db.merge(buyer);
-
             db.getTransaction().commit();
             return true;
 
@@ -569,6 +560,32 @@ public class DataAccess {
             db.getTransaction().rollback();
             return false;
         }
+    }
+    
+    private boolean datuakFaltaDira(Seller buyer, Sale sale) {
+        if (buyer == null || sale == null || sale.getBuyer() != null) {
+            return true;
+        }
+        return false;
+    }
+    
+    private boolean produktuaSaskianDago(Integer saleNumber, List<Sale> basket) {
+        for (Sale s : basket) {
+            if (s.getSaleNumber().equals(saleNumber)) {
+                return true; 
+            }
+        }
+        return false;
+    }
+    
+    private boolean saltzaileEzberdinaDa(Sale sale, List<Sale> basket) {
+        if (!basket.isEmpty()) {
+            Seller firstSeller = basket.get(0).getSeller();
+            if (!sale.getSeller().equals(firstSeller)) {
+                return true; 
+            }
+        }
+        return false;
     }
     
     public boolean removeFromBasket(String email, Integer saleNumber) {
