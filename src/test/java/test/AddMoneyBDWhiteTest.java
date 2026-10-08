@@ -1,4 +1,3 @@
-/*
 package test;
 
 import static org.junit.Assert.*;
@@ -85,4 +84,3 @@ public class AddMoneyBDWhiteTest {
         assertFalse("Akatsa testKasu3: Espero zen balioa 'false' da, bezero hori ez delako existitzen DB-an.", result);
     }    
 }
-*/

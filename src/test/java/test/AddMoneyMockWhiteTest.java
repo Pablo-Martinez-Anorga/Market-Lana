@@ -1,4 +1,3 @@
-/*
 package test;
 
 import static org.junit.Assert.*;
@@ -97,4 +96,3 @@ public class AddMoneyMockWhiteTest {
         Mockito.verify(et, Mockito.times(1)).rollback();
     }
 }
-*/
