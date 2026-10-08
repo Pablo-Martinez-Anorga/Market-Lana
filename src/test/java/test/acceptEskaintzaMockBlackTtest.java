@@ -223,4 +223,3 @@ public class acceptEskaintzaMockBlackTtest {
         Mockito.verify(transaction).rollback();
     }
 }
-*/
