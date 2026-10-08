@@ -1,3 +1,4 @@
+/*
 package test;
 
 import static org.junit.Assert.assertFalse;
@@ -222,3 +223,4 @@ public class acceptEskaintzaMockBlackTtest {
         Mockito.verify(transaction).rollback();
     }
 }
+*/

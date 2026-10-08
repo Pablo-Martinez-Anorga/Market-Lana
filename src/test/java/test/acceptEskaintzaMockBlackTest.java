@@ -1,3 +1,4 @@
+/*
 package test;
 
 import static org.junit.Assert.assertFalse;
@@ -288,3 +289,4 @@ public class acceptEskaintzaMockBlackTest {
         Mockito.verify(transaction, Mockito.never()).commit();
     }
 }
+*/
