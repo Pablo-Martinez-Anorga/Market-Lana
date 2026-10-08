@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,16 +15,18 @@ import domain.Eskaintza;
 
 public class acceptEskaintzaBDBlackTest {
 
-    static DataAccess sut = new DataAccess();
-    static DataAccess testDA = new DataAccess();
+    private DataAccess sut = new DataAccess();
 
     private Eskaera eskaera;
     private Eskaintza eskaintza;
 
     @Before
     public void setUp() {
-        testDA.open();
         sut.open();
+    }
+    @After
+    public void tearDown() {
+        sut.close();
     }
 
     @Test
@@ -32,24 +35,23 @@ public class acceptEskaintzaBDBlackTest {
          String sellerEmail = "selle1r@gmail.com";
 
         try {
-            testDA.isRegister("Buyer CP1", buyerEmail, "123", "123");
-            testDA.isRegister("Seller CP1", sellerEmail, "123", "123");
-            testDA.addMoney(buyerEmail, 19);
+            sut.isRegister("Buyer CP1", buyerEmail, "123", "123");
+            sut.isRegister("Seller CP1", sellerEmail, "123", "123");
+            sut.addMoney(buyerEmail, 19);
 
-            testDA.createEskaera(buyerEmail, "Eskaera CP1", "Deskribapena");
-            eskaera = testDA.getOpenEskaerak().stream()
+            sut.createEskaera(buyerEmail, "Eskaera CP1", "Deskribapena");
+            eskaera = sut.getOpenEskaerak().stream()
                         .filter(e -> e.getBuyer().getEmail().equals(buyerEmail))
                         .findFirst().orElse(null);
 
-            testDA.addEskaintza(eskaera.getId(), sellerEmail, 20.0f, "Eskaintza CP1"); // Prezioa: 20
-            eskaera = testDA.getOpenEskaerak().stream()
-                        .filter(e -> e.getId().equals(eskaera.getId()))
-                        .findFirst().orElse(null);
+            sut.addEskaintza(eskaera.getId(), sellerEmail, 20, "Eskaintza CP1");
+
             eskaintza = eskaera.getEskaintzak().get(0);
 
             boolean result = sut.acceptEskaintza(eskaera.getId(), eskaintza.getId());
             assertFalse(result);
-            assertTrue(testDA.getMoney(buyerEmail)==19);
+            assertTrue(sut.getMoney(buyerEmail)==19);
+            assertTrue(sut.getOpenEskaerak().stream().anyMatch(e -> e.getId().equals(eskaera.getId())));
 
         } catch (Exception e) {
             fail( e.getMessage());
@@ -58,29 +60,26 @@ public class acceptEskaintzaBDBlackTest {
 
     @Test
     public void test1_Muga20() {
-        // Muga Balioa: saldoa = 20, prezioa = 20 -> True (Bidezkoa, saldoa = 0 geratzen da)
     	 String buyerEmail = "buyer2@gmail.com";
          String sellerEmail = "selle2r@gmail.com";
 
         try {
-            testDA.isRegister("Buyer CP1", buyerEmail, "123", "123");
-            testDA.isRegister("Seller CP1", sellerEmail, "123", "123");
-            testDA.addMoney(buyerEmail, 20); 
+        	sut.isRegister("Buyer CP1", buyerEmail, "123", "123");
+        	sut.isRegister("Seller CP1", sellerEmail, "123", "123");
+        	sut.addMoney(buyerEmail, 20); 
 
-            testDA.createEskaera(buyerEmail, "Eskaera CP1", "Deskribapena");
-            eskaera = testDA.getOpenEskaerak().stream()
+        	sut.createEskaera(buyerEmail, "Eskaera CP1", "Deskribapena");
+            eskaera = sut.getOpenEskaerak().stream()
                         .filter(e -> e.getBuyer().getEmail().equals(buyerEmail))
                         .findFirst().orElse(null);
 
-            testDA.addEskaintza(eskaera.getId(), sellerEmail, 20.0f, "Eskaintza CP1"); // Prezioa: 20
-            eskaera = testDA.getOpenEskaerak().stream()
-                        .filter(e -> e.getId().equals(eskaera.getId()))
-                        .findFirst().orElse(null);
+            sut.addEskaintza(eskaera.getId(), sellerEmail, 20.0f, "Eskaintza CP1"); // Prezioa: 20
             eskaintza = eskaera.getEskaintzak().get(0);
 
             boolean result = sut.acceptEskaintza(eskaera.getId(), eskaintza.getId());
             assertTrue(result);
             assertTrue(sut.getMoney(buyerEmail)==0);
+            assertTrue(sut.getOpenEskaerak().stream().noneMatch(e -> e.getId().equals(eskaera.getId())));
 
         } catch (Exception e) {
             fail(e.getMessage());
@@ -93,24 +92,23 @@ public class acceptEskaintzaBDBlackTest {
          String sellerEmail = "seller3@gmail.com";
 
         try {
-            testDA.isRegister("Buyer CP1", buyerEmail, "123", "123");
-            testDA.isRegister("Seller CP1", sellerEmail, "123", "123");
-            testDA.addMoney(buyerEmail, 21);
+        	sut.isRegister("Buyer CP1", buyerEmail, "123", "123");
+        	sut.isRegister("Seller CP1", sellerEmail, "123", "123");
+        	sut.addMoney(buyerEmail, 21);
 
-            testDA.createEskaera(buyerEmail, "Eskaera CP1", "Deskribapena");
-            eskaera = testDA.getOpenEskaerak().stream()
+        	sut.createEskaera(buyerEmail, "Eskaera CP1", "Deskribapena");
+            eskaera = sut.getOpenEskaerak().stream()
                         .filter(e -> e.getBuyer().getEmail().equals(buyerEmail))
                         .findFirst().orElse(null);
 
-            testDA.addEskaintza(eskaera.getId(), sellerEmail, 20, "Eskaintza CP1");
-            eskaera = testDA.getOpenEskaerak().stream()
-                        .filter(e -> e.getId().equals(eskaera.getId()))
-                        .findFirst().orElse(null);
+            sut.addEskaintza(eskaera.getId(), sellerEmail, 20, "Eskaintza CP1");
+            
             eskaintza = eskaera.getEskaintzak().get(0);
 
             boolean result = sut.acceptEskaintza(eskaera.getId(), eskaintza.getId());
             assertTrue(result);
             assertTrue(sut.getMoney(buyerEmail)==1);
+            assertTrue(sut.getOpenEskaerak().stream().noneMatch(e -> e.getId().equals(eskaera.getId())));
 
         } catch (Exception e) {
             fail(e.getMessage());
@@ -123,51 +121,51 @@ public class acceptEskaintzaBDBlackTest {
         String sellerEmail = "seller@gmail.com";
         
         try {
-            testDA.isRegister("Buyer CP2", buyerEmail, "123", "123");
-            testDA.isRegister("Seller CP2", sellerEmail, "123", "123");
-            testDA.addMoney(buyerEmail, 20);
+        	sut.isRegister("Buyer CP2", buyerEmail, "123", "123");
+        	sut.isRegister("Seller CP2", sellerEmail, "123", "123");
+        	sut.addMoney(buyerEmail, 20);
 
-            testDA.createEskaera(buyerEmail, "Eskaera CP2", "Deskribapena");
-            eskaera = testDA.getOpenEskaerak().stream()
+        	sut.createEskaera(buyerEmail, "Eskaera CP2", "Deskribapena");
+            eskaera = sut.getOpenEskaerak().stream()
                         .filter(e -> e.getBuyer().getEmail().equals(buyerEmail))
                         .findFirst().orElse(null);
 
-            testDA.addEskaintza(eskaera.getId(), sellerEmail, 10, "Eskaintza CP2");
-            eskaera = testDA.getOpenEskaerak().stream()
-                        .filter(e -> e.getId().equals(eskaera.getId()))
-                        .findFirst().orElse(null);
+            sut.addEskaintza(eskaera.getId(), sellerEmail, 10, "Eskaintza CP2");
+            
+            eskaera.setClosed(true);
+            
             eskaintza = eskaera.getEskaintzak().get(0);
 
             sut.acceptEskaintza(eskaera.getId(), eskaintza.getId());
-            float moneyClosed = testDA.getMoney(buyerEmail);
+            float moneyClosed = sut.getMoney(buyerEmail);
 
             boolean result = sut.acceptEskaintza(eskaera.getId(), eskaintza.getId());
             assertFalse(result);
             assertTrue(moneyClosed==20);
+            assertTrue(eskaera.isClosed());
 
         } catch (Exception e) {
             fail(e.getMessage());
         }
     }
+    
     @Test
     public void test3() {
         String buyerEmail = "buyer4@gmail.com";
         String sellerEmail = "seller4@gmail.com";
 
         try {
-            testDA.isRegister("Buyer CP3", buyerEmail, "123", "123");
-            testDA.isRegister("Seller CP3", sellerEmail, "123", "123");
-            testDA.addMoney(buyerEmail, 10);
+        	sut.isRegister("Buyer CP3", buyerEmail, "123", "123");
+        	sut.isRegister("Seller CP3", sellerEmail, "123", "123");
+        	sut.addMoney(buyerEmail, 10);
 
-            testDA.createEskaera(buyerEmail, "Eskaera CP3", "Deskribapena");
-            eskaera = testDA.getOpenEskaerak().stream()
+        	sut.createEskaera(buyerEmail, "Eskaera CP3", "Deskribapena");
+            eskaera = sut.getOpenEskaerak().stream()
                         .filter(e -> e.getBuyer().getEmail().equals(buyerEmail))
                         .findFirst().orElse(null);
 
-            testDA.addEskaintza(eskaera.getId(), sellerEmail, 20, "Eskaintza CP3"); // Prezioa: 20
-            eskaera = testDA.getOpenEskaerak().stream()
-                        .filter(e -> e.getId().equals(eskaera.getId()))
-                        .findFirst().orElse(null);
+            sut.addEskaintza(eskaera.getId(), sellerEmail, 20, "Eskaintza CP3"); // Prezioa: 20
+            
             eskaintza = eskaera.getEskaintzak().get(0);
 
             boolean result = sut.acceptEskaintza(eskaera.getId(), eskaintza.getId());
@@ -179,9 +177,6 @@ public class acceptEskaintzaBDBlackTest {
         }
     }
 
-    // ------------------------------------------------------------------------
-    // CP4: eskaeraId null, eskaintzaId = 1 -> False, DB: Ez da aldatzen
-    // ------------------------------------------------------------------------
     @Test
     public void test4() {
         try {
@@ -217,10 +212,10 @@ public class acceptEskaintzaBDBlackTest {
         String buyerEmail = "buyer.cp7@gmail.com";
 
         try {
-            testDA.isRegister("Buyer CP7", buyerEmail, "123", "123");
-            testDA.createEskaera(buyerEmail, "Eskaera CP7", "Deskribapena");
+        	sut.isRegister("Buyer CP7", buyerEmail, "123", "123");
+        	sut.createEskaera(buyerEmail, "Eskaera CP7", "Deskribapena");
 
-            eskaera = testDA.getOpenEskaerak().stream()
+            eskaera = sut.getOpenEskaerak().stream()
                         .filter(e -> e.getBuyer().getEmail().equals(buyerEmail))
                         .findFirst().orElse(null);
 

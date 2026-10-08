@@ -14,18 +14,19 @@ import domain.Eskaintza;
 
 public class acceptEskaintzaBDWhiteTest {
 
-    static DataAccess sut = new DataAccess();
-    static DataAccess testDA = new DataAccess();
+    private DataAccess sut = new DataAccess();
 
     private Eskaera eskaera;
     private Eskaintza eskaintza;
 
     @Before
     public void setUp() {
-        testDA.open();
         sut.open();
     }
-
+    @After
+    public void tearDown() {
+        sut.close();
+    }
     @Test
     public void test1() {
         try {
@@ -51,10 +52,10 @@ public class acceptEskaintzaBDWhiteTest {
         String buyerEmail = "buyer.b3@test.com";
 
         try {
-            testDA.isRegister("Buyer B3", buyerEmail, "123", "123");
-            testDA.createEskaera(buyerEmail, "Eskaera B3", "Deskribapena");
+            sut.isRegister("Buyer B3", buyerEmail, "123", "123");
+            sut.createEskaera(buyerEmail, "Eskaera B3", "Deskribapena");
 
-            eskaera = testDA.getOpenEskaerak().stream()
+            eskaera = sut.getOpenEskaerak().stream()
                         .filter(e -> e.getBuyer().getEmail().equals(buyerEmail))
                         .findFirst().orElse(null);
 
@@ -73,29 +74,29 @@ public class acceptEskaintzaBDWhiteTest {
         String sellerEmail = "seller.b4@test.com";
 
         try {
-            testDA.isRegister("Buyer B4", buyerEmail, "123", "123");
-            testDA.isRegister("Seller B4", sellerEmail, "123", "123");
-            testDA.addMoney(buyerEmail, 100);
+            sut.isRegister("Buyer B4", buyerEmail, "123", "123");
+            sut.isRegister("Seller B4", sellerEmail, "123", "123");
+            sut.addMoney(buyerEmail, 20);
 
-            testDA.createEskaera(buyerEmail, "Eskaera B4", "Deskribapena");
-            eskaera = testDA.getOpenEskaerak().stream()
+            sut.createEskaera(buyerEmail, "Eskaera B4", "Deskribapena");
+            eskaera = sut.getOpenEskaerak().stream()
                         .filter(e -> e.getBuyer().getEmail().equals(buyerEmail))
                         .findFirst().orElse(null);
 
-            testDA.addEskaintza(eskaera.getId(), sellerEmail, 20, "Eskaintza B4");
+            sut.addEskaintza(eskaera.getId(), sellerEmail, 20, "Eskaintza B4");
 
-            eskaera = sut.getOpenEskaerak().stream()
-                        .filter(e -> e.getId().equals(eskaera.getId()))
-                        .findFirst().orElse(null);
             eskaintza = eskaera.getEskaintzak().get(0);
-
-            sut.acceptEskaintza(eskaera.getId(), eskaintza.getId());
-
+            
+            eskaera.setClosed(true);
+            
             float diruaOndoren = sut.getMoney(buyerEmail);
+            
+            sut.acceptEskaintza(eskaera.getId(), eskaintza.getId());
 
             boolean result = sut.acceptEskaintza(eskaera.getId(), eskaintza.getId());
             assertFalse(result);
             assertTrue(sut.getMoney(buyerEmail) == diruaOndoren);
+            assertTrue(sut.getOpenEskaerak().stream().anyMatch(e -> e.getId().equals(eskaera.getId())));
 
         } catch (Exception e) {
             fail(e.getMessage());
@@ -108,20 +109,17 @@ public class acceptEskaintzaBDWhiteTest {
         String sellerEmail = "seller.b5@test.com";
 
         try {
-            testDA.isRegister("Buyer B5", buyerEmail, "123", "123");
-            testDA.isRegister("Seller B5", sellerEmail, "123", "123");
-            testDA.addMoney(buyerEmail, 10);
+            sut.isRegister("Buyer B5", buyerEmail, "123", "123");
+            sut.isRegister("Seller B5", sellerEmail, "123", "123");
+            sut.addMoney(buyerEmail, 10);
 
-            testDA.createEskaera(buyerEmail, "Eskaera B5", "Deskribapena");
-            eskaera = testDA.getOpenEskaerak().stream()
+            sut.createEskaera(buyerEmail, "Eskaera B5", "Deskribapena");
+            eskaera = sut.getOpenEskaerak().stream()
                         .filter(e -> e.getBuyer().getEmail().equals(buyerEmail))
                         .findFirst().orElse(null);
 
-            testDA.addEskaintza(eskaera.getId(), sellerEmail, 20, "Eskaintza B5");
+            sut.addEskaintza(eskaera.getId(), sellerEmail, 20, "Eskaintza B5");
 
-            eskaera = sut.getOpenEskaerak().stream()
-                        .filter(e -> e.getId().equals(eskaera.getId()))
-                        .findFirst().orElse(null);
             eskaintza = eskaera.getEskaintzak().get(0);
 
             boolean result = sut.acceptEskaintza(eskaera.getId(), eskaintza.getId());
@@ -140,20 +138,17 @@ public class acceptEskaintzaBDWhiteTest {
         String sellerEmail = "seller.b6@test.com";
 
         try {
-            testDA.isRegister("Buyer B6", buyerEmail, "123", "123");
-            testDA.isRegister("Seller B6", sellerEmail, "123", "123");
-            testDA.addMoney(buyerEmail, 30);
+            sut.isRegister("Buyer B6", buyerEmail, "123", "123");
+            sut.isRegister("Seller B6", sellerEmail, "123", "123");
+            sut.addMoney(buyerEmail, 30);
 
-            testDA.createEskaera(buyerEmail, "Eskaera B6", "Deskribapena");
-            eskaera = testDA.getOpenEskaerak().stream()
+            sut.createEskaera(buyerEmail, "Eskaera B6", "Deskribapena");
+            eskaera = sut.getOpenEskaerak().stream()
                         .filter(e -> e.getBuyer().getEmail().equals(buyerEmail))
                         .findFirst().orElse(null);
 
-            testDA.addEskaintza(eskaera.getId(), sellerEmail, 20, "Eskaintza B6");
+            sut.addEskaintza(eskaera.getId(), sellerEmail, 20, "Eskaintza B6");
 
-            eskaera = sut.getOpenEskaerak().stream()
-                        .filter(e -> e.getId().equals(eskaera.getId()))
-                        .findFirst().orElse(null);
             eskaintza = eskaera.getEskaintzak().get(0);
 
             boolean result = sut.acceptEskaintza(eskaera.getId(), eskaintza.getId());

@@ -35,8 +35,8 @@ public class acceptEskaintzaMockWhiteTest {
 
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        Mockito.when(db.getTransaction()).thenReturn(transaction);
+    	MockitoAnnotations.openMocks(this);
+    	Mockito.when(db.getTransaction()).thenReturn(transaction);
     }
 
     @Test

@@ -734,7 +734,7 @@ public class DataAccess {
             return false;
         }
     }
-    // 15 lerro
+
     public boolean acceptEskaintza(Integer eskaeraId, Integer eskaintzaId) {
         try {
             db.getTransaction().begin();

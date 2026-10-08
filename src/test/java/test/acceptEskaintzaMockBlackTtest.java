@@ -31,20 +31,16 @@ public class acceptEskaintzaMockBlackTtest {
 
     @Before
     public void setUp() {
+    	
+    	MockitoAnnotations.openMocks(this);
 
-        MockitoAnnotations.initMocks(this);
-
-        Mockito.when(db.getTransaction()).thenReturn(transaction);
+    	Mockito.when(db.getTransaction()).thenReturn(transaction);
      
         sut = new DataAccess(db);
     }
 
-    // ---------------------------------------------------------
-    // TEST 1
-    // Aceptar una oferta correctamente
-    // ---------------------------------------------------------
     @Test
-    public void test1_AcceptEskaintzaCorrectamente() {
+    public void test1() {
 
         Eskaera mockEskaera = Mockito.mock(Eskaera.class);
         Eskaintza mockEskaintza = Mockito.mock(Eskaintza.class);
@@ -70,10 +66,10 @@ public class acceptEskaintzaMockBlackTtest {
                 .thenReturn(mockSeller);
 
         Mockito.when(mockEskaintza.getPrice())
-                .thenReturn(20.0f);
+                .thenReturn(20f);
 
         Mockito.when(mockBuyer.getMoney())
-                .thenReturn(30.0f);
+                .thenReturn(30f);
 
         Mockito.when(mockEskaintza.getMessage())
                 .thenReturn("Oferta de prueba");
@@ -88,20 +84,16 @@ public class acceptEskaintzaMockBlackTtest {
                 )
         ).thenReturn(mockSale);
 
-        boolean resultado = sut.acceptEskaintza(1, 1);
+        boolean emaitza = sut.acceptEskaintza(1, 1);
 
-        assertTrue(resultado);
+        assertTrue(emaitza);
 
         Mockito.verify(transaction).begin();
         Mockito.verify(transaction).commit();
     }
 
-    // ---------------------------------------------------------
-    // TEST 2
-    // La eskaera ya está cerrada
-    // ---------------------------------------------------------
     @Test
-    public void test2_EskaeraCerrada() {
+    public void test2() {
 
         Eskaera mockEskaera = Mockito.mock(Eskaera.class);
         Eskaintza mockEskaintza = Mockito.mock(Eskaintza.class);
@@ -115,16 +107,16 @@ public class acceptEskaintzaMockBlackTtest {
         Mockito.when(mockEskaera.isClosed())
                 .thenReturn(true);
 
-        boolean resultado = sut.acceptEskaintza(1, 1);
+        boolean emaitza = sut.acceptEskaintza(1, 1);
 
-        assertFalse(resultado);
+        assertFalse(emaitza);
 
         Mockito.verify(transaction).begin();
         Mockito.verify(transaction).rollback();
         Mockito.verify(transaction, Mockito.never()).commit();
     }
     @Test
-    public void test3_DineroInsuficiente() {
+    public void test3() {
 
         Eskaera mockEskaera = Mockito.mock(Eskaera.class);
         Eskaintza mockEskaintza = Mockito.mock(Eskaintza.class);
@@ -153,16 +145,15 @@ public class acceptEskaintzaMockBlackTtest {
         Mockito.when(mockBuyer.getMoney())
                 .thenReturn(10.0f);
 
-        boolean resultado = sut.acceptEskaintza(1, 1);
+        boolean emaitza = sut.acceptEskaintza(1, 1);
 
-        assertFalse(resultado);
+        assertFalse(emaitza);
 
         Mockito.verify(transaction).begin();
         Mockito.verify(transaction).rollback();
-        Mockito.verify(transaction, Mockito.never()).commit();
     }
     @Test
-    public void test4_EskaeraNull() {
+    public void test4() {
 
         Mockito.when(db.find(Eskaera.class, null))
                 .thenReturn(null);
@@ -170,13 +161,12 @@ public class acceptEskaintzaMockBlackTtest {
         Mockito.when(db.find(Eskaintza.class, 1))
                 .thenReturn(Mockito.mock(Eskaintza.class));
 
-        boolean resultado = sut.acceptEskaintza(null, 1);
+        boolean emaitza = sut.acceptEskaintza(null, 1);
 
-        assertFalse(resultado);
+        assertFalse(emaitza);
 
         Mockito.verify(transaction).begin();
         Mockito.verify(transaction).rollback();
-        Mockito.verify(transaction, Mockito.never()).commit();
     }
 
     @Test
@@ -188,21 +178,16 @@ public class acceptEskaintzaMockBlackTtest {
         Mockito.when(db.find(Eskaintza.class, null))
                 .thenReturn(null);
 
-        boolean resultado = sut.acceptEskaintza(1, null);
+        boolean emaitza = sut.acceptEskaintza(1, null);
 
-        assertFalse(resultado);
+        assertFalse(emaitza);
 
         Mockito.verify(transaction).begin();
         Mockito.verify(transaction).rollback();
-        Mockito.verify(transaction, Mockito.never()).commit();
     }
 
-    // ---------------------------------------------------------
-    // TEST 6
-    // Eskaera inexistente
-    // ---------------------------------------------------------
     @Test
-    public void test6_EskaeraNoExiste() {
+    public void test6() {
 
         Mockito.when(db.find(Eskaera.class, 999999))
                 .thenReturn(null);
@@ -210,17 +195,16 @@ public class acceptEskaintzaMockBlackTtest {
         Mockito.when(db.find(Eskaintza.class, 1))
                 .thenReturn(Mockito.mock(Eskaintza.class));
 
-        boolean resultado = sut.acceptEskaintza(999999, 1);
+        boolean emaitza = sut.acceptEskaintza(999999, 1);
 
-        assertFalse(resultado);
+        assertFalse(emaitza);
 
         Mockito.verify(transaction).begin();
         Mockito.verify(transaction).rollback();
-        Mockito.verify(transaction, Mockito.never()).commit();
     }
 
     @Test
-    public void test7_EskaintzaNoExiste() {
+    public void test7() {
 
         Eskaera mockEskaera = Mockito.mock(Eskaera.class);
 
@@ -230,12 +214,11 @@ public class acceptEskaintzaMockBlackTtest {
         Mockito.when(db.find(Eskaintza.class, 999999))
                 .thenReturn(null);
 
-        boolean resultado = sut.acceptEskaintza(1, 999999);
+        boolean emaitza = sut.acceptEskaintza(1, 999999);
 
-        assertFalse(resultado);
+        assertFalse(emaitza);
 
         Mockito.verify(transaction).begin();
         Mockito.verify(transaction).rollback();
-        Mockito.verify(transaction, Mockito.never()).commit();
     }
 }

@@ -37,10 +37,6 @@ public class acceptEskaintzaMockBlackTest {
         sut = new DataAccess(db);
     }
 
-    // ---------------------------------------------------------
-    // TEST 1
-    // Saldo = 19, precio = 20 -> FALSE
-    // ---------------------------------------------------------
     @Test
     public void test1_Muga19() {
 
@@ -66,10 +62,10 @@ public class acceptEskaintzaMockBlackTest {
                 .thenReturn(mockSeller);
 
         Mockito.when(mockEskaintza.getPrice())
-                .thenReturn(20.0f);
+                .thenReturn(20f);
 
         Mockito.when(mockBuyer.getMoney())
-                .thenReturn(19.0f);
+                .thenReturn(19f);
 
         boolean result = sut.acceptEskaintza(1, 1);
 
@@ -80,10 +76,6 @@ public class acceptEskaintzaMockBlackTest {
         Mockito.verify(transaction, Mockito.never()).commit();
     }
 
-    // ---------------------------------------------------------
-    // TEST 2
-    // Saldo = 20, precio = 20 -> TRUE
-    // ---------------------------------------------------------
     @Test
     public void test2_Muga20() {
 
