@@ -24,7 +24,6 @@
 
 	<build>
 		<plugins>
-			<!-- Plugin de pruebas Surefire (Actualizado para compatibilidad con Java 21) -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
@@ -32,14 +31,12 @@
 				<configuration>
 					<testFailureIgnore>true</testFailureIgnore>
 					<includes>
-						<!-- Asegurar que escanea todos los tests en paquetes como test/ -->
 						<include>**/*Test.java</include>
 						<include>**/*Tests.java</include>
 					</includes>
 				</configuration>
 			</plugin>
 
-			<!-- Plugin JaCoCo para generar el informe de cobertura -->
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
