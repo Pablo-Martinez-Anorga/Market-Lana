@@ -30,7 +30,9 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: Build and analyze
+	  - name: Build and test
+		  run: mvn clean verify
+	  - name: Build and analyze
         env:
           SONAR_TOKEN: bd7dd71bbdf9b4e43df613980cec223ac553a0f3
         run: mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent org.jacoco:jacoco-maven-plugin:report install org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
