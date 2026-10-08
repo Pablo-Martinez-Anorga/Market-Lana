@@ -28,9 +28,8 @@ public class acceptEskaintzaBDBlackTest {
     
     @Test
     public void test1_Muga19() {
-        // Muga Balioa: saldoa = 19, prezioa = 20 -> False (Ez dauka diru nahikoa)
-        String buyerEmail = "buyer.cp1.19@test.com";
-        String sellerEmail = "seller.cp1.19@test.com";
+    	 String buyerEmail = "buyer1@gmail.com";
+         String sellerEmail = "selle1r@gmail.com";
 
         try {
             testDA.isRegister("Buyer CP1", buyerEmail, "123", "123");
@@ -60,8 +59,8 @@ public class acceptEskaintzaBDBlackTest {
     @Test
     public void test1_Muga20() {
         // Muga Balioa: saldoa = 20, prezioa = 20 -> True (Bidezkoa, saldoa = 0 geratzen da)
-        String buyerEmail = "buyer.cp1.20@test.com";
-        String sellerEmail = "seller.cp1.20@test.com";
+    	 String buyerEmail = "buyer2@gmail.com";
+         String sellerEmail = "selle2r@gmail.com";
 
         try {
             testDA.isRegister("Buyer CP1", buyerEmail, "123", "123");
@@ -90,8 +89,8 @@ public class acceptEskaintzaBDBlackTest {
 
     @Test
     public void test1_Muga21() {
-        String buyerEmail = "buyer.cp1.23@test.com";
-        String sellerEmail = "seller.cp1.23@test.com";
+    	 String buyerEmail = "buyer3@gmail.com";
+         String sellerEmail = "seller3@gmail.com";
 
         try {
             testDA.isRegister("Buyer CP1", buyerEmail, "123", "123");
@@ -120,9 +119,9 @@ public class acceptEskaintzaBDBlackTest {
     
     @Test
     public void test2() {
-        String buyerEmail = "buyer.cp2@test.com";
-        String sellerEmail = "seller.cp2@test.com";
-
+    	String buyerEmail = "buyer@gmail.com";
+        String sellerEmail = "seller@gmail.com";
+        
         try {
             testDA.isRegister("Buyer CP2", buyerEmail, "123", "123");
             testDA.isRegister("Seller CP2", sellerEmail, "123", "123");
@@ -152,8 +151,8 @@ public class acceptEskaintzaBDBlackTest {
     }
     @Test
     public void test3() {
-        String buyerEmail = "buyer.cp3@test.com";
-        String sellerEmail = "seller.cp3@test.com";
+        String buyerEmail = "buyer4@gmail.com";
+        String sellerEmail = "seller4@gmail.com";
 
         try {
             testDA.isRegister("Buyer CP3", buyerEmail, "123", "123");
@@ -215,7 +214,7 @@ public class acceptEskaintzaBDBlackTest {
 
     @Test
     public void test7() {
-        String buyerEmail = "buyer.cp7@test.com";
+        String buyerEmail = "buyer.cp7@gmail.com";
 
         try {
             testDA.isRegister("Buyer CP7", buyerEmail, "123", "123");
