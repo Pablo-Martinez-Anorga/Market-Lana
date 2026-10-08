@@ -40,7 +40,7 @@ public class acceptEskaintzaMockWhiteTest {
     }
 
     @Test
-    public void testBidea1() {
+    public void test1() {
         try {
             boolean result = sut.acceptEskaintza(null, null);
 
@@ -54,7 +54,7 @@ public class acceptEskaintzaMockWhiteTest {
     }
 
     @Test
-    public void testBidea2() {
+    public void test2() {
         try {
             Mockito.when(db.find(Eskaera.class, 1)).thenReturn(null);
             Mockito.when(db.find(Eskaintza.class, 1)).thenReturn(Mockito.mock(Eskaintza.class));
@@ -71,7 +71,7 @@ public class acceptEskaintzaMockWhiteTest {
     }
 
     @Test
-    public void testBidea3() {
+    public void test3() {
         try {
             Eskaera mockEskaera = Mockito.mock(Eskaera.class);
             Mockito.when(db.find(Eskaera.class, 1)).thenReturn(mockEskaera);
@@ -89,7 +89,7 @@ public class acceptEskaintzaMockWhiteTest {
     }
 
     @Test
-    public void testBidea4() {
+    public void test4() {
         try {
             Eskaera mockEskaera = Mockito.mock(Eskaera.class);
             Eskaintza mockEskaintza = Mockito.mock(Eskaintza.class);
@@ -110,7 +110,7 @@ public class acceptEskaintzaMockWhiteTest {
     }
 
     @Test
-    public void testBidea5() {
+    public void test5() {
         try {
             Eskaera mockEskaera = Mockito.mock(Eskaera.class);
             Eskaintza mockEskaintza = Mockito.mock(Eskaintza.class);
@@ -138,7 +138,7 @@ public class acceptEskaintzaMockWhiteTest {
     }
 
     @Test
-    public void testBidea6() {
+    public void test6() {
         try {
             Eskaera mockEskaera = Mockito.mock(Eskaera.class);
             Eskaintza mockEskaintza = Mockito.mock(Eskaintza.class);

@@ -29,7 +29,7 @@ public class acceptEskaintzaBDWhiteTest {
     @Test
     public void test1() {
         try {
-            boolean result = sut.acceptEskaintza(null, null);
+            boolean result = sut.acceptEskaintza(99999999, 999999999);
             assertFalse(result);
         } catch (Exception e) {
             fail(e.getMessage());
