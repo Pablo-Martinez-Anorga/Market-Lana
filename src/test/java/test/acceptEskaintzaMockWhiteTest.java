@@ -157,7 +157,7 @@ public class acceptEskaintzaMockWhiteTest {
             Mockito.when(db.find(Eskaera.class, 1)).thenReturn(mockEskaera);
             Mockito.when(db.find(Eskaintza.class, 1)).thenReturn(mockEskaintza);
             
-            Mockito.when(mockSeller.addSale(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt(), Mockito.anyFloat(), Mockito.any(), Mockito.any()))
+            Mockito.when(mockSeller.addSale(Mockito.any(Sale.class), Mockito.any()))
                     .thenReturn(mockSale);
 
             boolean result = sut.acceptEskaintza(1, 1);

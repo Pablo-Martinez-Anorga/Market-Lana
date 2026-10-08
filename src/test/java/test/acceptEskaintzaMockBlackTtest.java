@@ -83,11 +83,7 @@ public class acceptEskaintzaMockBlackTtest {
 
         Mockito.when(
                 mockSeller.addSale(
-                        Mockito.anyString(),
-                        Mockito.anyString(),
-                        Mockito.anyInt(),
-                        Mockito.anyFloat(),
-                        Mockito.any(),
+                		Mockito.any(Sale.class),
                         Mockito.any()
                 )
         ).thenReturn(mockSale);

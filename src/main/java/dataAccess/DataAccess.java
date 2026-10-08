@@ -102,16 +102,16 @@ public class DataAccess {
             //Create products
             Date today = UtilDate.trim(new Date());
         
-            seller1.addSale("futbol baloia", "oso polita, gutxi erabilita", 2, 10, today, null);
-            seller1.addSale("salomon mendiko botak", "44 zenbakia, 3 ateraldi",2,  20, today, null);
-            seller1.addSale("samsung 42\" telebista", "berria, erabili gabe", 1, 175, today, null);
+            seller1.addSale(new Sale("futbol baloia", "oso polita, gutxi erabilita", 2, 10, today, null, seller1), null);
+            seller1.addSale(new Sale("salomon mendiko botak", "44 zenbakia, 3 ateraldi",2,  20, today, null, seller1), null);
+            seller1.addSale(new Sale("samsung 42\" telebista", "berria, erabili gabe", 1, 175, today, null, seller1), null);
 
-            seller2.addSale("imac 27", "7 urte, dena ondo dabil", 1, 200,today, null);
-            seller2.addSale("iphone 17", "oso gutxi erabilita", 2, 400, today, null);
-            seller2.addSale("orbea mendiko bizikleta", "29\" 10 urte, mantenua behar du", 3,225, today, null);
-            seller2.addSale("polar kilor erlojua", "Vantage M, ondo dago", 3, 30, today, null);
+            seller2.addSale(new Sale("imac 27", "7 urte, dena ondo dabil", 1, 200,today, null, seller2), null);
+            seller2.addSale(new Sale("iphone 17", "oso gutxi erabilita", 2, 400, today, null, seller2), null);
+            seller2.addSale(new Sale("orbea mendiko bizikleta", "29\" 10 urte, mantenua behar du", 3,225, today, null, seller2), null);
+            seller2.addSale(new Sale("polar kilor erlojua", "Vantage M, ondo dago", 3, 30, today, null, seller2), null);
 
-            seller3.addSale("sukaldeko mahaia", "1.8*0.8, 4 aulkiekin. Prezio finkoa", 3,45, today, null);
+            seller3.addSale(new Sale("sukaldeko mahaia", "1.8*0.8, 4 aulkiekin. Prezio finkoa", 3,45, today, null, seller3), null);
 
             db.persist(seller1);
             db.persist(seller2);
@@ -124,11 +124,10 @@ public class DataAccess {
             e.printStackTrace();
         }
     }
-    // 4 parametro
-    public Sale createSale(String title, String description, int status, float price, Date pubDate, String sellerEmail, File file) throws FileNotUploadedException, MustBeLaterThanTodayException, SaleAlreadyExistException {
-    	System.out.println(">> DataAccess: createProduct=> title= "+title+" seller="+sellerEmail);
+    public Sale createSale(String sellerEmail, File file, Sale newSale) throws FileNotUploadedException, MustBeLaterThanTodayException, SaleAlreadyExistException {
+    	System.out.println(">> DataAccess: createProduct=> title= "+newSale.getTitle()+" seller="+sellerEmail);
     	try {
-            if(pubDate.before(UtilDate.trim(new Date()))) {
+            if(newSale.getPubDate().before(UtilDate.trim(new Date()))) {
                 throw new MustBeLaterThanTodayException(ResourceBundle.getBundle(EMAITZA).getString("DataAccess.ErrorSaleMustBeLaterThanToday"));
             }
             if (file==null)
@@ -137,12 +136,12 @@ public class DataAccess {
             db.getTransaction().begin();
             
             Seller seller = db.find(Seller.class, sellerEmail);
-            if (seller.doesSaleExist(title)) {
+            if (seller.doesSaleExist(newSale.getTitle())) {
                 db.getTransaction().commit();
                 throw new SaleAlreadyExistException(ResourceBundle.getBundle(EMAITZA).getString("DataAccess.SaleAlreadyExist"));
             }
 
-            Sale sale = seller.addSale(title, description, status, price, pubDate, file);
+            Sale sale = seller.addSale(newSale, file);
             
             db.persist(seller); 
             db.getTransaction().commit();
@@ -764,7 +763,8 @@ public class DataAccess {
             String tituloSale = "[Eskaera] " + eskaera.getTitle();
             String descSale = eskaintza.getMessage();
             
-            Sale transaccion = seller.addSale(tituloSale, descSale, 1, price, new java.util.Date(), null);
+            Sale saleBerria = new Sale(tituloSale, descSale, 1, price, new java.util.Date(), null, seller);
+            Sale transaccion = seller.addSale(saleBerria, null);
             transaccion.setBuyer(buyer);
             buyer.addPurchasedSale(transaccion);
             

@@ -24,6 +24,7 @@ import java.beans.PropertyChangeListener;
 
 import businesslogic.BLFacade;
 import configuration.UtilDate;
+import domain.Sale;
 
 public class CreateSaleGUI extends JFrame {
 	
@@ -99,8 +100,8 @@ public class CreateSaleGUI extends JFrame {
 						
 						// AQUÍ ESTÁ LA CORRECCIÓN: Envolvemos la fecha con toXMLGregorianCalendar(...)
 						//facade.createSale(fieldTitle.getText(), fieldDescription.getText(), numStatus, price, toXMLGregorianCalendar(UtilDate.trim(jCalendar.getDate())), sellerMail, encodeFileToBase64Binary(targetFile));
-						facade.createSale(fieldTitle.getText(), fieldDescription.getText(), numStatus, price, UtilDate.trim(jCalendar.getDate()), sellerMail, null);
-
+						Sale saleBerria = new Sale(fieldTitle.getText(), fieldDescription.getText(), numStatus, price, UtilDate.trim(jCalendar.getDate()), null, null);
+						facade.createSale(saleBerria, sellerMail, null);
 						jLabelMsg.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateSaleGUI.ProductCreated"));
 					
 					} catch (Exception e1) {
