@@ -18,7 +18,7 @@ import domain.Seller;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
-public class acceptEskaintzaMockBlackTtest {
+public class acceptEskaintzaMockBlackTest {
 
     @Mock
     private EntityManager db;

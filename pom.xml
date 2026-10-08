@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>Market26-si2-is2</groupId>
 	<artifactId>Market26-si2-is2</artifactId>
@@ -7,48 +9,56 @@
 	<properties>
 		<maven.compiler.target>21</maven.compiler.target>
 		<maven.compiler.source>21</maven.compiler.source>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<sonar.organization>proba2</sonar.organization>
 		<sonar.projectKey>proba2_proba2</sonar.projectKey>
-		<!-- Ruta del informe JaCoCo para SonarCloud -->
+		
+		<sonar.sources>src/main/java</sonar.sources>
+		<sonar.tests>src/test/java</sonar.tests>
+		<sonar.java.binaries>target/classes</sonar.java.binaries>
+		
 		<sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
 
 	<build>
 		<plugins>
+			<!-- Plugin de pruebas Surefire (Actualizado para compatibilidad con Java 21) -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.2.5</version>
 				<configuration>
 					<testFailureIgnore>true</testFailureIgnore>
+					<includes>
+						<!-- Asegurar que escanea todos los tests en paquetes como test/ -->
+						<include>**/*Test.java</include>
+						<include>**/*Tests.java</include>
+					</includes>
 				</configuration>
 			</plugin>
+
+			<!-- Plugin JaCoCo para generar el informe de cobertura -->
 			<plugin>
-			    <groupId>org.jacoco</groupId>
-			    <artifactId>jacoco-maven-plugin</artifactId>
-			    <version>0.8.12</version>
-			    <executions>
-			        <execution>
-			            <id>prepare-agent</id>
-			            <goals>
-			                <goal>prepare-agent</goal>
-			            </goals>
-			        </execution>
-			
-			        <execution>
-			            <id>report</id>
-			            <phase>verify</phase>
-			            <goals>
-			                <goal>report</goal>
-			            </goals>
-			        </execution>
-			    </executions>
-			</plugin>
-			<plugin>
-				<groupId>org.sonarsource.scanner.maven</groupId>
-				<artifactId>sonar-maven-plugin</artifactId>
-				<version>3.10.0.2594</version>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.12</version>
+				<executions>
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
