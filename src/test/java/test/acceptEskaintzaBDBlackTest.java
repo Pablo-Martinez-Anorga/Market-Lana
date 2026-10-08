@@ -25,7 +25,7 @@ public class acceptEskaintzaBDBlackTest {
         testDA.open();
         sut.open();
     }
-    /*
+
     @Test
     public void test1_Muga19() {
     	 String buyerEmail = "buyer1@gmail.com";
@@ -116,7 +116,7 @@ public class acceptEskaintzaBDBlackTest {
             fail(e.getMessage());
         }
     }
-    */
+    
     @Test
     public void test2() {
     	String buyerEmail = "buyer@gmail.com";
