@@ -750,6 +750,7 @@ public class DataAccess {
 
             Seller buyer = eskaera.getBuyer();
             Seller seller = eskaintza.getSeller();
+            
             float price = eskaintza.getPrice();
 
             if (buyer.getMoney() < price) {
