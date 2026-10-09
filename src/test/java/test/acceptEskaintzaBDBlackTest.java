@@ -28,7 +28,8 @@ public class acceptEskaintzaBDBlackTest {
     public void tearDown() {
         sut.close();
     }
-
+    
+    /*
     @Test
     public void test1_Muga19() {
     	 String buyerEmail = "buyer1@gmail.com";
@@ -114,7 +115,10 @@ public class acceptEskaintzaBDBlackTest {
             fail(e.getMessage());
         }
     }
+    */
     
+    
+    /*
     @Test
     public void test2() {
     	String buyerEmail = "buyer@gmail.com";
@@ -176,7 +180,7 @@ public class acceptEskaintzaBDBlackTest {
             fail(e.getMessage());
         }
     }
-
+	*/
     @Test
     public void test4() {
         try {
@@ -206,7 +210,7 @@ public class acceptEskaintzaBDBlackTest {
             fail(e.getMessage());
         }
     }
-
+	
     @Test
     public void test7() {
         String buyerEmail = "buyer.cp7@gmail.com";

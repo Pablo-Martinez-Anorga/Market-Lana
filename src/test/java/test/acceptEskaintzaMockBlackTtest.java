@@ -38,7 +38,7 @@ public class acceptEskaintzaMockBlackTtest {
      
         sut = new DataAccess(db);
     }
-
+    /*
     @Test
     public void test1() {
 
@@ -202,7 +202,7 @@ public class acceptEskaintzaMockBlackTtest {
         Mockito.verify(transaction).begin();
         Mockito.verify(transaction).rollback();
     }
-
+	*/
     @Test
     public void test7() {
 

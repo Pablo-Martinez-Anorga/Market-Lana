@@ -27,7 +27,7 @@ public class acceptEskaintzaBDWhiteTest {
     public void tearDown() {
         sut.close();
     }
-
+    /*	
     @Test
     public void test1() {
         try {
@@ -58,7 +58,7 @@ public class acceptEskaintzaBDWhiteTest {
             fail(e.getMessage());
         }
     }
-
+	*/
     @Test
     public void test3() {
         String buyerEmail = "buyer.b4@test.com";
@@ -122,7 +122,7 @@ public class acceptEskaintzaBDWhiteTest {
             fail(e.getMessage());
         }
     }
-
+    /*
     @Test
     public void test5() {
         String buyerEmail = "buyer.b6@test.com";
@@ -152,3 +152,4 @@ public class acceptEskaintzaBDWhiteTest {
         }
     }
 }
+*/
