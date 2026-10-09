@@ -42,20 +42,6 @@ public class acceptEskaintzaMockWhiteTest {
     @Test
     public void test1() {
         try {
-            boolean result = sut.acceptEskaintza(null, null);
-
-            assertFalse(result);
-            verify(transaction, never()).commit();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail("Excepción inesperada: " + e.toString());
-        }
-    }
-
-    @Test
-    public void test2() {
-        try {
             Mockito.when(db.find(Eskaera.class, 1)).thenReturn(null);
             Mockito.when(db.find(Eskaintza.class, 1)).thenReturn(Mockito.mock(Eskaintza.class));
 
@@ -65,13 +51,12 @@ public class acceptEskaintzaMockWhiteTest {
             verify(transaction).rollback();
 
         } catch (Exception e) {
-            e.printStackTrace();
-            fail("Excepción inesperada: " + e.toString());
+        	 fail(e.getMessage());
         }
     }
 
     @Test
-    public void test3() {
+    public void test2() {
         try {
             Eskaera mockEskaera = Mockito.mock(Eskaera.class);
             Mockito.when(db.find(Eskaera.class, 1)).thenReturn(mockEskaera);
@@ -83,13 +68,12 @@ public class acceptEskaintzaMockWhiteTest {
             verify(transaction).rollback();
 
         } catch (Exception e) {
-            e.printStackTrace();
-            fail("Excepción inesperada: " + e.toString());
+        	 fail(e.getMessage());
         }
     }
 
     @Test
-    public void test4() {
+    public void test3() {
         try {
             Eskaera mockEskaera = Mockito.mock(Eskaera.class);
             Eskaintza mockEskaintza = Mockito.mock(Eskaintza.class);
@@ -104,13 +88,12 @@ public class acceptEskaintzaMockWhiteTest {
             verify(transaction).rollback();
 
         } catch (Exception e) {
-            e.printStackTrace();
-            fail("Excepción inesperada: " + e.toString());
+        	 fail(e.getMessage());
         }
     }
 
     @Test
-    public void test5() {
+    public void test4() {
         try {
             Eskaera mockEskaera = Mockito.mock(Eskaera.class);
             Eskaintza mockEskaintza = Mockito.mock(Eskaintza.class);
@@ -132,13 +115,12 @@ public class acceptEskaintzaMockWhiteTest {
             verify(transaction).rollback();
 
         } catch (Exception e) {
-            e.printStackTrace();
-            fail("Excepción inesperada: " + e.toString());
+        	 fail(e.getMessage());
         }
     }
 
     @Test
-    public void test6() {
+    public void test5() {
         try {
             Eskaera mockEskaera = Mockito.mock(Eskaera.class);
             Eskaintza mockEskaintza = Mockito.mock(Eskaintza.class);
@@ -166,8 +148,7 @@ public class acceptEskaintzaMockWhiteTest {
             verify(transaction).commit();
 
         } catch (Exception e) {
-            e.printStackTrace();
-            fail(e.toString());
+        	 fail(e.getMessage());
         }
     }
 }

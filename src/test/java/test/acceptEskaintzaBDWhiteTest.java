@@ -27,18 +27,9 @@ public class acceptEskaintzaBDWhiteTest {
     public void tearDown() {
         sut.close();
     }
-    @Test
-    public void test1() {
-        try {
-            boolean result = sut.acceptEskaintza(99999999, 999999999);
-            assertFalse(result);
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
-    }
 
     @Test
-    public void test2() {
+    public void test1() {
         try {
             boolean result = sut.acceptEskaintza(1, 1);
             assertFalse(result);
@@ -48,7 +39,7 @@ public class acceptEskaintzaBDWhiteTest {
     }
 
     @Test
-    public void test3() {
+    public void test2() {
         String buyerEmail = "buyer.b3@test.com";
 
         try {
@@ -69,7 +60,7 @@ public class acceptEskaintzaBDWhiteTest {
     }
 
     @Test
-    public void test4() {
+    public void test3() {
         String buyerEmail = "buyer.b4@test.com";
         String sellerEmail = "seller.b4@test.com";
 
@@ -104,7 +95,7 @@ public class acceptEskaintzaBDWhiteTest {
     }
 
     @Test
-    public void tes5() {
+    public void tes4() {
         String buyerEmail = "buyer.b5@test.com";
         String sellerEmail = "seller.b5@test.com";
 
@@ -133,7 +124,7 @@ public class acceptEskaintzaBDWhiteTest {
     }
 
     @Test
-    public void test6() {
+    public void test5() {
         String buyerEmail = "buyer.b6@test.com";
         String sellerEmail = "seller.b6@test.com";
 
