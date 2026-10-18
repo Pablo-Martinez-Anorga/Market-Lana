@@ -87,15 +87,20 @@ public class ViewEskaerakGUI extends JFrame {
         }
 
         try {
-            String priceStr = JOptionPane.showInputDialog(this, ResourceBundle.getBundle("Etiquetas").getString("ViewEskaerakGUI.InputPrice"));
+        	String priceStr = JOptionPane.showInputDialog(this, ResourceBundle.getBundle("Etiquetas").getString("ViewEskaerakGUI.InputPrice"));
             if (priceStr == null || priceStr.isEmpty()) return;
             float price = Float.parseFloat(priceStr);
 
             String message = JOptionPane.showInputDialog(this, ResourceBundle.getBundle("Etiquetas").getString("ViewEskaerakGUI.InputMessage"));
             if (message == null) message = "";
 
+
+            Seller seller = new Seller(); 
+            seller.setEmail(userEmail); 
+            Eskaintza eskaintzaBerria = new Eskaintza(price, message, seller, selected);
+
             BLFacade facade = MainGUI.getBusinessLogic();
-            boolean ok = facade.addEskaintza(selected.getId(), userEmail, price, message);
+            boolean ok = facade.addEskaintza(eskaintzaBerria);
 
             if (ok) {
                 JOptionPane.showMessageDialog(this, ResourceBundle.getBundle("Etiquetas").getString("ViewEskaerakGUI.Success"));

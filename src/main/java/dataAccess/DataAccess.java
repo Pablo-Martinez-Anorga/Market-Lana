@@ -156,25 +156,20 @@ public class DataAccess {
     }
     
     public List<Sale> getSales(String desc) {
-        System.out.println(">> DataAccess: getProducts=> from= "+desc);
-        List<Sale> res = new ArrayList<Sale>(); 
         TypedQuery<Sale> query = db.createQuery("SELECT s FROM Sale s WHERE s.title LIKE ?1 AND s.buyer IS NULL", Sale.class);
         query.setParameter(1, "%"+desc+"%");
-        
-        List<Sale> sales = query.getResultList();
-        for (Sale sale:sales){
-            res.add(sale);
-        }
-        return res;
+        return emaitzakLortu(query);
     }
     
     public List<Sale> getPublishedSales(String desc, Date pubDate) {
-        System.out.println(">> DataAccess: getProducts=> from= "+desc);
-        List<Sale> res = new ArrayList<Sale>(); 
         TypedQuery<Sale> query = db.createQuery("SELECT s FROM Sale s WHERE s.title LIKE ?1 AND s.pubDate <=?2 AND s.buyer IS NULL",Sale.class);
         query.setParameter(1, "%"+desc+"%");
-        query.setParameter(2,pubDate);
-        
+        query.setParameter(2, pubDate);
+        return emaitzakLortu(query);
+    }
+
+    private List<Sale> emaitzakLortu(TypedQuery<Sale> query) {
+        List<Sale> res = new ArrayList<Sale>(); 
         List<Sale> sales = query.getResultList();
         for (Sale sale:sales){
             res.add(sale);
@@ -455,7 +450,7 @@ public class DataAccess {
             return query.getResultList();
         } catch (Exception e) { return new ArrayList<Sale>(); }
     }
-    //Konplexutasuna 4 eta 15 lerro
+    //Konplexutasuna 4 eta 15 lerroget
     public boolean resolveErreklamazioa(Integer saleNumber, boolean accept) {
         try {
             db.getTransaction().begin();
@@ -465,40 +460,10 @@ public class DataAccess {
             }
 
             if (accept) {
-                Seller buyer = sale.getBuyer();
-                Seller seller = sale.getSeller();
-
-                if (buyer != null && seller != null) {
-                    buyer.addMoney(sale.getPrice()); 
-                    seller.addMoney(-sale.getPrice()); 
-
-                   
-                    Mugimenduak mBuyer = new Mugimenduak("ITZULKETA", new java.util.Date(), buyer);
-                    mBuyer.setSale(sale);
-                    db.persist(mBuyer);
-                    
-                    Mugimenduak mSeller = new Mugimenduak("ITZULKETA_KENTZEA", new java.util.Date(), seller);
-                    mSeller.setSale(sale);
-                    db.persist(mSeller);
-                    
-                 
-                    buyer.getPurchasedSales().remove(sale);
-                    sale.setBuyer(null); 
-
-                    db.merge(buyer);
-                    db.merge(seller);
-                }
+                diruaEtaMugimenduakItzuli(sale);
             }
             
-            Erreklamazioa err = sale.getErreklamazioa();
-            sale.setErreklamazioa(null);
-            db.merge(sale);
-            
-            if (err != null) {
-                Erreklamazioa dbErr = db.find(Erreklamazioa.class, err.getId());
-                if (dbErr != null) err.setTratatuta(true);
-                db.merge(err);
-            }
+            erreklamazioaItxi(sale);
 
             db.getTransaction().commit();
             return true;
@@ -508,6 +473,44 @@ public class DataAccess {
             return false;
         }
     }
+
+	private void erreklamazioaItxi(Sale sale) {
+		Erreklamazioa err = sale.getErreklamazioa();
+		sale.setErreklamazioa(null);
+		db.merge(sale);
+		
+		if (err != null) {
+		    Erreklamazioa dbErr = db.find(Erreklamazioa.class, err.getId());
+		    if (dbErr != null) err.setTratatuta(true);
+		    db.merge(err);
+		}
+	}
+
+	private void diruaEtaMugimenduakItzuli(Sale sale) {
+		Seller buyer = sale.getBuyer();
+		Seller seller = sale.getSeller();
+
+		if (buyer != null && seller != null) {
+		    buyer.addMoney(sale.getPrice()); 
+		    seller.addMoney(-sale.getPrice()); 
+
+		   
+		    Mugimenduak mBuyer = new Mugimenduak("ITZULKETA", new java.util.Date(), buyer);
+		    mBuyer.setSale(sale);
+		    db.persist(mBuyer);
+		    
+		    Mugimenduak mSeller = new Mugimenduak("ITZULKETA_KENTZEA", new java.util.Date(), seller);
+		    mSeller.setSale(sale);
+		    db.persist(mSeller);
+		    
+		 
+		    buyer.getPurchasedSales().remove(sale);
+		    sale.setBuyer(null); 
+
+		    db.merge(buyer);
+		    db.merge(seller);
+		}
+	}
     
     public Admin isAdmin(String log, String pass) {
     	return erabiltzaileaBilatu("SELECT a FROM Admin a WHERE a.name=?1 AND a.pass=?2", Admin.class, log, pass);
@@ -611,69 +614,26 @@ public class DataAccess {
         return new ArrayList<>(user.getBasket());
     }
     
-    // 15 lerro, 4ko konplexutasuna 
     public boolean buyBasket(String buyerEmail) {
         try {
             db.getTransaction().begin();
             Seller buyer = db.find(Seller.class, buyerEmail);
-            if (buyer == null) {
+            
+            if (buyer == null || buyer.getBasket() == null || buyer.getBasket().isEmpty()) {
                 db.getTransaction().rollback();
                 return false;
             }
 
-            List<Sale> basket = buyer.getBasket();
-
-            if (basket == null || basket.isEmpty()) {
+            float total = saskiarenTotalaKalkulatu(buyer.getBasket());
+            if (total < 0 || buyer.getMoney() < total) {
                 db.getTransaction().rollback();
                 return false;
             }
 
-            Seller seller = basket.get(0).getSeller(); 
-
-            float total = 0;
-
-          
-            for (Sale s : basket) {
-                if (!s.getSeller().equals(seller)) {
-                    db.getTransaction().rollback();
-                    return false;
-                }
-                total += s.getPrice();
-            }
-
-           
-            if (buyer.getMoney() < total) {
-                db.getTransaction().rollback();
-                return false;
-            }
-
-          
-            buyer.addMoney(-total);
-       
-            for (Sale s : basket) {
-                s.setBuyer(buyer);
-                buyer.addPurchasedSale(s);
-                
-                Bidalketa bidalketa = new Bidalketa(s);
-                s.setBidalketa(bidalketa);
-                db.persist(bidalketa);
-
-               
-                Mugimenduak mugimendu = new Mugimenduak("EROSKETA", new java.util.Date(), buyer);
-                mugimendu.setSale(s);
-                db.persist(mugimendu);
-                
-                db.merge(s);
-            }
-
-            basket.clear();
-
-            db.merge(buyer);
-            db.merge(seller);
-
+            saskiaErosi(buyer, total);
+            
             db.getTransaction().commit();
             return true;
-
         } catch (Exception e) {
             e.printStackTrace();
             if (db.getTransaction().isActive()) {
@@ -681,6 +641,36 @@ public class DataAccess {
             }
             return false;
         }
+    }
+
+    private float saskiarenTotalaKalkulatu(List<Sale> basket) {
+        Seller seller = basket.get(0).getSeller(); 
+        float total = 0;
+        for (Sale s : basket) {
+            if (!s.getSeller().equals(seller)) return -1;
+            total += s.getPrice();
+        }
+        return total;
+    }
+
+    private void saskiaErosi(Seller buyer, float total) {
+        buyer.addMoney(-total);
+        for (Sale s : buyer.getBasket()) {
+            s.setBuyer(buyer);
+            buyer.addPurchasedSale(s);
+            
+            Bidalketa bidalketa = new Bidalketa(s);
+            s.setBidalketa(bidalketa);
+            db.persist(bidalketa);
+
+            Mugimenduak mugimendu = new Mugimenduak("EROSKETA", new java.util.Date(), buyer);
+            mugimendu.setSale(s);
+            db.persist(mugimendu);
+            db.merge(s);
+        }
+        buyer.getBasket().clear();
+        db.merge(buyer);
+        db.merge(buyer.getBasket().get(0).getSeller());
     }
 
     public boolean createEskaera(String buyerEmail, String title, String description) {
@@ -708,10 +698,13 @@ public class DataAccess {
         return query.getResultList();
     }
     // konplexutasuna 4
-    public boolean addEskaintza(Integer eskaeraId, String sellerEmail, float price, String message) {
+    public boolean addEskaintza(Eskaintza eskaintzaBerria) {
         try {
             db.getTransaction().begin();
             
+            Integer eskaeraId = eskaintzaBerria.getEskaera().getId(); 
+            String sellerEmail = eskaintzaBerria.getSeller().getEmail();
+
             Eskaera eskaera = db.find(Eskaera.class, eskaeraId);
             Seller seller = db.find(Seller.class, sellerEmail);
             
@@ -720,10 +713,12 @@ public class DataAccess {
                 return false;
             }
 
-            Eskaintza eskaintza = new Eskaintza(price, message, seller, eskaera);
-            eskaera.addEskaintza(eskaintza);
+            eskaintzaBerria.setSeller(seller);
+            eskaintzaBerria.setEskaera(eskaera);
             
-            db.persist(eskaintza);
+            eskaera.addEskaintza(eskaintzaBerria);
+            
+            db.persist(eskaintzaBerria);
             eskaera = db.merge(eskaera);
             
             db.getTransaction().commit();

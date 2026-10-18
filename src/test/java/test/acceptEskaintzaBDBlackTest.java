@@ -12,6 +12,7 @@ import org.junit.Test;
 import dataAccess.DataAccess;
 import domain.Eskaera;
 import domain.Eskaintza;
+import domain.Seller; // <-- AÑADIDO EL IMPORT DE SELLER
 
 public class acceptEskaintzaBDBlackTest {
 
@@ -24,6 +25,7 @@ public class acceptEskaintzaBDBlackTest {
     public void setUp() {
         sut.open();
     }
+    
     @After
     public void tearDown() {
         sut.close();
@@ -31,7 +33,7 @@ public class acceptEskaintzaBDBlackTest {
 
     @Test
     public void test1_Muga19() {
-    	 String buyerEmail = "buyer1@gmail.com";
+         String buyerEmail = "buyer1@gmail.com";
          String sellerEmail = "selle1r@gmail.com";
 
         try {
@@ -44,8 +46,10 @@ public class acceptEskaintzaBDBlackTest {
                         .filter(e -> e.getBuyer().getEmail().equals(buyerEmail))
                         .findFirst().orElse(null);
 
-            sut.addEskaintza(eskaera.getId(), sellerEmail, 20, "Eskaintza CP1");
-
+            Seller seller = new Seller();
+            seller.setEmail(sellerEmail);
+            Eskaintza eskaintzaBerria = new Eskaintza(20, "Eskaintza CP1", seller, eskaera);
+            sut.addEskaintza(eskaintzaBerria);
             eskaintza = eskaera.getEskaintzak().get(0);
 
             boolean result = sut.acceptEskaintza(eskaera.getId(), eskaintza.getId());
@@ -60,20 +64,24 @@ public class acceptEskaintzaBDBlackTest {
 
     @Test
     public void test1_Muga20() {
-    	 String buyerEmail = "buyer2@gmail.com";
+         String buyerEmail = "buyer2@gmail.com";
          String sellerEmail = "selle2r@gmail.com";
 
         try {
-        	sut.isRegister("Buyer CP1", buyerEmail, "123", "123");
-        	sut.isRegister("Seller CP1", sellerEmail, "123", "123");
-        	sut.addMoney(buyerEmail, 20); 
+            sut.isRegister("Buyer CP1", buyerEmail, "123", "123");
+            sut.isRegister("Seller CP1", sellerEmail, "123", "123");
+            sut.addMoney(buyerEmail, 20); 
 
-        	sut.createEskaera(buyerEmail, "Eskaera CP1", "Deskribapena");
+            sut.createEskaera(buyerEmail, "Eskaera CP1", "Deskribapena");
             eskaera = sut.getOpenEskaerak().stream()
                         .filter(e -> e.getBuyer().getEmail().equals(buyerEmail))
                         .findFirst().orElse(null);
 
-            sut.addEskaintza(eskaera.getId(), sellerEmail, 20.0f, "Eskaintza CP1"); // Prezioa: 20
+            Seller seller = new Seller();
+            seller.setEmail(sellerEmail);
+            Eskaintza eskaintzaBerria = new Eskaintza(20.0f, "Eskaintza CP1", seller, eskaera);
+            sut.addEskaintza(eskaintzaBerria);
+
             eskaintza = eskaera.getEskaintzak().get(0);
 
             boolean result = sut.acceptEskaintza(eskaera.getId(), eskaintza.getId());
@@ -88,20 +96,23 @@ public class acceptEskaintzaBDBlackTest {
 
     @Test
     public void test1_Muga21() {
-    	 String buyerEmail = "buyer3@gmail.com";
+         String buyerEmail = "buyer3@gmail.com";
          String sellerEmail = "seller3@gmail.com";
 
         try {
-        	sut.isRegister("Buyer CP1", buyerEmail, "123", "123");
-        	sut.isRegister("Seller CP1", sellerEmail, "123", "123");
-        	sut.addMoney(buyerEmail, 21);
+            sut.isRegister("Buyer CP1", buyerEmail, "123", "123");
+            sut.isRegister("Seller CP1", sellerEmail, "123", "123");
+            sut.addMoney(buyerEmail, 21);
 
-        	sut.createEskaera(buyerEmail, "Eskaera CP1", "Deskribapena");
+            sut.createEskaera(buyerEmail, "Eskaera CP1", "Deskribapena");
             eskaera = sut.getOpenEskaerak().stream()
                         .filter(e -> e.getBuyer().getEmail().equals(buyerEmail))
                         .findFirst().orElse(null);
 
-            sut.addEskaintza(eskaera.getId(), sellerEmail, 20, "Eskaintza CP1");
+            Seller seller = new Seller();
+            seller.setEmail(sellerEmail);
+            Eskaintza eskaintzaBerria = new Eskaintza(20, "Eskaintza CP1", seller, eskaera);
+            sut.addEskaintza(eskaintzaBerria);
             
             eskaintza = eskaera.getEskaintzak().get(0);
 
@@ -117,20 +128,23 @@ public class acceptEskaintzaBDBlackTest {
     
     @Test
     public void test2() {
-    	String buyerEmail = "buyer@gmail.com";
+        String buyerEmail = "buyer@gmail.com";
         String sellerEmail = "seller@gmail.com";
         
         try {
-        	sut.isRegister("Buyer CP2", buyerEmail, "123", "123");
-        	sut.isRegister("Seller CP2", sellerEmail, "123", "123");
-        	sut.addMoney(buyerEmail, 20);
+            sut.isRegister("Buyer CP2", buyerEmail, "123", "123");
+            sut.isRegister("Seller CP2", sellerEmail, "123", "123");
+            sut.addMoney(buyerEmail, 20);
 
-        	sut.createEskaera(buyerEmail, "Eskaera CP2", "Deskribapena");
+            sut.createEskaera(buyerEmail, "Eskaera CP2", "Deskribapena");
             eskaera = sut.getOpenEskaerak().stream()
                         .filter(e -> e.getBuyer().getEmail().equals(buyerEmail))
                         .findFirst().orElse(null);
 
-            sut.addEskaintza(eskaera.getId(), sellerEmail, 10, "Eskaintza CP2");
+            Seller seller = new Seller();
+            seller.setEmail(sellerEmail);
+            Eskaintza eskaintzaBerria = new Eskaintza(10, "Eskaintza CP2", seller, eskaera);
+            sut.addEskaintza(eskaintzaBerria);
             
             eskaera.setClosed(true);
             
@@ -155,16 +169,19 @@ public class acceptEskaintzaBDBlackTest {
         String sellerEmail = "seller4@gmail.com";
 
         try {
-        	sut.isRegister("Buyer CP3", buyerEmail, "123", "123");
-        	sut.isRegister("Seller CP3", sellerEmail, "123", "123");
-        	sut.addMoney(buyerEmail, 10);
+            sut.isRegister("Buyer CP3", buyerEmail, "123", "123");
+            sut.isRegister("Seller CP3", sellerEmail, "123", "123");
+            sut.addMoney(buyerEmail, 10);
 
-        	sut.createEskaera(buyerEmail, "Eskaera CP3", "Deskribapena");
+            sut.createEskaera(buyerEmail, "Eskaera CP3", "Deskribapena");
             eskaera = sut.getOpenEskaerak().stream()
                         .filter(e -> e.getBuyer().getEmail().equals(buyerEmail))
                         .findFirst().orElse(null);
 
-            sut.addEskaintza(eskaera.getId(), sellerEmail, 20, "Eskaintza CP3"); // Prezioa: 20
+            Seller seller = new Seller();
+            seller.setEmail(sellerEmail);
+            Eskaintza eskaintzaBerria = new Eskaintza(20, "Eskaintza CP3", seller, eskaera);
+            sut.addEskaintza(eskaintzaBerria);
             
             eskaintza = eskaera.getEskaintzak().get(0);
 
@@ -212,8 +229,8 @@ public class acceptEskaintzaBDBlackTest {
         String buyerEmail = "buyer.cp7@gmail.com";
 
         try {
-        	sut.isRegister("Buyer CP7", buyerEmail, "123", "123");
-        	sut.createEskaera(buyerEmail, "Eskaera CP7", "Deskribapena");
+            sut.isRegister("Buyer CP7", buyerEmail, "123", "123");
+            sut.createEskaera(buyerEmail, "Eskaera CP7", "Deskribapena");
 
             eskaera = sut.getOpenEskaerak().stream()
                         .filter(e -> e.getBuyer().getEmail().equals(buyerEmail))
