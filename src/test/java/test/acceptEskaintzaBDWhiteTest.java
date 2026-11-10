@@ -11,6 +11,7 @@ import org.junit.Test;
 import dataAccess.DataAccess;
 import domain.Eskaera;
 import domain.Eskaintza;
+import domain.Seller;
 
 public class acceptEskaintzaBDWhiteTest {
 
@@ -23,6 +24,7 @@ public class acceptEskaintzaBDWhiteTest {
     public void setUp() {
         sut.open();
     }
+    
     @After
     public void tearDown() {
         sut.close();
@@ -74,7 +76,10 @@ public class acceptEskaintzaBDWhiteTest {
                         .filter(e -> e.getBuyer().getEmail().equals(buyerEmail))
                         .findFirst().orElse(null);
 
-            sut.addEskaintza(eskaera.getId(), sellerEmail, 20, "Eskaintza B4");
+            Seller seller = new Seller();
+            seller.setEmail(sellerEmail);
+            Eskaintza eskaintzaBerria = new Eskaintza(20, "Eskaintza B4", seller, eskaera);
+            sut.addEskaintza(eskaintzaBerria);
 
             eskaintza = eskaera.getEskaintzak().get(0);
             
@@ -109,7 +114,10 @@ public class acceptEskaintzaBDWhiteTest {
                         .filter(e -> e.getBuyer().getEmail().equals(buyerEmail))
                         .findFirst().orElse(null);
 
-            sut.addEskaintza(eskaera.getId(), sellerEmail, 20, "Eskaintza B5");
+            Seller seller = new Seller();
+            seller.setEmail(sellerEmail);
+            Eskaintza eskaintzaBerria = new Eskaintza(20, "Eskaintza B5", seller, eskaera);
+            sut.addEskaintza(eskaintzaBerria);
 
             eskaintza = eskaera.getEskaintzak().get(0);
 
@@ -138,7 +146,10 @@ public class acceptEskaintzaBDWhiteTest {
                         .filter(e -> e.getBuyer().getEmail().equals(buyerEmail))
                         .findFirst().orElse(null);
 
-            sut.addEskaintza(eskaera.getId(), sellerEmail, 20, "Eskaintza B6");
+            Seller seller = new Seller();
+            seller.setEmail(sellerEmail);
+            Eskaintza eskaintzaBerria = new Eskaintza(20, "Eskaintza B6", seller, eskaera);
+            sut.addEskaintza(eskaintzaBerria);
 
             eskaintza = eskaera.getEskaintzak().get(0);
 

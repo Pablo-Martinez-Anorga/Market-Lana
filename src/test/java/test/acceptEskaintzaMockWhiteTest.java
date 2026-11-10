@@ -23,7 +23,6 @@ import domain.Sale;
 import domain.Seller;
 
 public class acceptEskaintzaMockWhiteTest {
-
     @Mock
     private EntityManager db;
 

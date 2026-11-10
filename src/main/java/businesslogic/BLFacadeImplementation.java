@@ -9,13 +9,13 @@ import javax.jws.WebService;
 import dataAccess.DataAccess;
 import domain.Admin;
 import domain.Eskaera;
+import domain.Eskaintza;
 import domain.Salaketa;
 import domain.Sale;
 import domain.Seller;
 import exceptions.FileNotUploadedException;
 import exceptions.MustBeLaterThanTodayException;
 import exceptions.SaleAlreadyExistException;
-
 import java.awt.image.BufferedImage;
 import java.awt.Image;
 import javax.imageio.ImageIO;
@@ -266,9 +266,9 @@ public class BLFacadeImplementation  implements BLFacade {
     }
 
     @WebMethod
-    public boolean addEskaintza(Integer eskaeraId, String sellerEmail, float price, String message) {
+    public boolean addEskaintza(Eskaintza datuak) {
         dbManager.open();
-        boolean success = dbManager.addEskaintza(eskaeraId, sellerEmail, price, message);
+        boolean success = dbManager.addEskaintza(datuak);
         dbManager.close();
         return success;
     }

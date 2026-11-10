@@ -6,6 +6,7 @@ import java.util.List;
 
 import domain.Admin;
 import domain.Eskaera;
+import domain.Eskaintza;
 import domain.Salaketa;
 import domain.Sale;
 import domain.Seller;
@@ -90,7 +91,7 @@ public interface BLFacade  {
     @WebMethod public boolean buyBasket(String email);
     @WebMethod public boolean createEskaera(String buyerEmail, String title, String description);
     @WebMethod public List<Eskaera> getOpenEskaerak();
-    @WebMethod public boolean addEskaintza(Integer eskaeraId, String sellerEmail, float price, String message);
+    @WebMethod public boolean addEskaintza(Eskaintza datuak);
     @WebMethod public boolean acceptEskaintza(Integer eskaeraId, Integer eskaintzaId);
     @WebMethod public boolean confirmArrival(Integer saleNumber);
 }
