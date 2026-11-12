@@ -287,6 +287,13 @@ public class BLFacadeImplementation  implements BLFacade {
         dbManager.close();
         return ok;
     }
+    @WebMethod
+    public ExtendedIterator<Sale> getSalesIterator(String desc) {
+        dbManager.open();
+        List<Sale> sales = dbManager.getSales(desc);
+        dbManager.close();
+        return new ExtendedIteratorSales(sales);
+    }
     
 }
 
